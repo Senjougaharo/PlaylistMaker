@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     >
 
@@ -27,34 +26,32 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="@string/settings"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            style="@style/MessageHeadLine"/>
         </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/Top"
         android:layout_marginStart="16dp"
         android:orientation="vertical"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="38dp">
 
 
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dark_theme"
-            android:textColor="@color/black_as_fu"
-            android:textSize="@dimen/small_text_size"
             android:layout_weight="1"
-                android:layout_gravity="bottom"/>
+                style ="@style/SmallMessageTextStyle"/>
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_dark_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp" />
@@ -64,16 +61,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/Top">
+            android:layout_marginTop="38dp">
 
         <TextView
+            android:id="@+id/share_app"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/share_app"
-            android:textColor="@color/black_as_fu"
-            android:textSize="@dimen/small_text_size"
-
             android:layout_weight="1"
+            style ="@style/SmallMessageTextStyle"
             />
 
 
@@ -88,38 +84,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/Top">
+            android:layout_marginTop="@dimen/top_42">
         <TextView
+            android:id="@+id/support_request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/support_request"
-            android:textColor="@color/black_as_fu"
-            android:textSize="@dimen/small_text_size"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            style ="@style/SmallMessageTextStyle"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/support"
+            style="@style/icons"
             android:layout_marginRight="12dp"
             />
         </LinearLayout>
 
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/Top">
+            android:layout_marginTop="@dimen/top_42">
 
         <TextView
+            android:id="@+id/user_agreement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/user_agreement"
-            android:textColor="@color/black_as_fu"
-            android:textSize="@dimen/small_text_size"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            style ="@style/SmallMessageTextStyle"/>
 
         <ImageView
             android:layout_width="wrap_content"
