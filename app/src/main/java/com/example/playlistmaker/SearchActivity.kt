@@ -72,6 +72,7 @@ class SearchActivity : AppCompatActivity() {
         inputEditText.setText(savedInstanceState.getString(BUBA, ""))
     }
 
+
     companion object {
         const val BUBA = "BUBA"
     }
