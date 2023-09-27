@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="SettingsActivityButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
+
+
     <style name="MainActivityBackground">
         <item name="android:background">@color/black</item>
     </style>
+
+
     <style name="SmallMessageTextStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">false</item>
@@ -10,6 +25,7 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textFontWeight">400</item>
     </style>
+
 
     <style name="MessageHeadLine">
         <item name="android:textColor">@color/white</item>

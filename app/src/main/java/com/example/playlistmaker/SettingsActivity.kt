@@ -16,18 +16,15 @@ class SettingsActivity  : AppCompatActivity() {
         val arrowBack = findViewById<ImageView>(R.id.arrowBack)
 
         arrowBack.setOnClickListener{
-
-            val backIntent = Intent(this, MainActivity::class.java)
-
-            startActivity(backIntent)
+            finish()
         }
 
-        val share_app = findViewById<TextView>(R.id.share_app)
+        val shareApp = findViewById<TextView>(R.id.share_app)
 
-        share_app.setOnClickListener {
+        shareApp.setOnClickListener {
 
 
-            val url = "https://practicum.yandex.ru/profile/android-developer/?from=catalog"
+            val url = getString(R.string.practicum)
             val intent = Intent(Intent.ACTION_SEND)
             intent.putExtra(Intent.EXTRA_TEXT, url)
             intent.type = "text/plain"
@@ -35,13 +32,13 @@ class SettingsActivity  : AppCompatActivity() {
 
         }
 
-        val support_request = findViewById<TextView>(R.id.support_request)
+        val supportRequest = findViewById<TextView>(R.id.support_request)
 
-        support_request.setOnClickListener{
+        supportRequest.setOnClickListener{
 
-            val contact = "semonsemonich@yandex.ru"
-            val messageTheme = "Сообщение разработчикам и разработчицам приложения Playlist Maker"
-            val message = "Спасибо разработчикам и разработчицам за крутое приложение!"
+            val contact = getString(R.string.contact)
+            val messageTheme = getString(R.string.message_theme_for_devs)
+            val message = getString(R.string.message_for_devs)
             val intent = Intent(Intent.ACTION_SENDTO)
             intent.data = Uri.parse("mailto:")
             intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(contact))
@@ -53,11 +50,11 @@ class SettingsActivity  : AppCompatActivity() {
 
 
 
-        val user_agreement = findViewById<TextView>(R.id.user_agreement)
+        val userAgreement = findViewById<TextView>(R.id.user_agreement)
 
-        user_agreement.setOnClickListener {
+        userAgreement.setOnClickListener {
 
-            val url = "https://yandex.ru/legal/practicum_offer/"
+            val url = getString(R.string.practicum_offer)
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             startActivity(i)
