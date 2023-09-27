@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:inputType="text"
+            android:textColor="@color/black"
             android:drawablePadding="5dp"
             android:layout_marginStart="8dp"
             android:drawableStart="@drawable/search_icon"
