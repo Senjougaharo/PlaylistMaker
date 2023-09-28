@@ -9,15 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/arrowBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/arrowback"
-            android:scaleType="centerInside"
+            style="@style/TypicalArrowBack"
             />
 
         <TextView
@@ -51,12 +46,13 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:inputType="text"
+            android:textColor="@color/black"
             android:drawablePadding="5dp"
             android:layout_marginStart="8dp"
             android:drawableStart="@drawable/search_icon"
             android:backgroundTint="@color/search_bar_grey"
             android:hint="@string/search"
-            android:textColorHint="@color/grey"
+            android:textColorHint="@color/search_bar_grey_to_black"
             />
 
 
