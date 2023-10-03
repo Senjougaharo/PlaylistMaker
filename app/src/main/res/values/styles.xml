@@ -77,5 +77,21 @@
         <item name="android:background">@color/blue</item>
     </style>
 
+    <style name="TrackName">
+        <item name="android:textColor">@color/black_as_fu_to_white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+    </style>
+
+    <style name="ArtistName">
+        <item name="android:textColor">@color/grey_to_white</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+    </style>
+
 
 </resources>

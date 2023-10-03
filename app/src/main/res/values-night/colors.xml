@@ -2,6 +2,7 @@
 <resources>
     <color name="grey_to_white">#FFFFFFFF</color>
     <color name="black_to_white">#FFFFFFFF</color>
+    <color name="black_as_fu_to_white">#FFFFFFFF</color>
     <color name="white_to_black">#1A1B22</color>
     <color name="grey_to_black">#1A1B22</color>
     <color name="search_bar_grey">#FFFFFFFF</color>

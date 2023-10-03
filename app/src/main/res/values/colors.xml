@@ -12,6 +12,7 @@
     <color name="search_bar_grey">#EBEDF0</color>
     <color name="search_bar_grey_to_black">#AEAFB4</color>
     <color name="black_as_fu">#000000</color>
+    <color name="black_as_fu_to_white">#000000</color>
     <color name="black_to_white">#1A1B22</color>
     <color name="grey_to_white">#AEAFB4</color>
     <color name="grey_to_black">#AEAFB4</color>

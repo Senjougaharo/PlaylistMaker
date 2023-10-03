@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 
 
 class SearchActivity : AppCompatActivity() {
@@ -23,6 +24,9 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+        val adapter = TrackAdapter(trackList)
+        recyclerView.adapter = adapter
 
         inputEditText = findViewById(R.id.inputEditText)
 
