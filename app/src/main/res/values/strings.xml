@@ -12,5 +12,10 @@
     <string name="contact">semonsemonich@yandex.ru</string>
     <string name="practicum">https://practicum.yandex.ru/profile/android-developer/?from=catalog</string>
     <string name="practicum_offer">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="connection_lost">Проблемы со связью\n
+        \n
+        Загрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="refresh">Обновить</string>
 
 </resources>

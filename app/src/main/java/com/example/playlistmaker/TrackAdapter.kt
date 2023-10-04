@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmaker.model.Track
 
-class TrackAdapter( val data: ArrayList<Track>): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+class TrackAdapter(private val data: ArrayList<Track>): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     class TrackViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
