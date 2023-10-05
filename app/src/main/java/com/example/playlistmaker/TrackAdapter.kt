@@ -11,8 +11,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.model.Track
 
-class TrackAdapter(private val data: ArrayList<Track>, private val onClick: (Track) -> Unit): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
-
+class TrackAdapter(private val onClick: (Track) -> Unit): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+   
    inner class TrackViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
         fun bind(track: Track){
@@ -38,7 +38,14 @@ class TrackAdapter(private val data: ArrayList<Track>, private val onClick: (Tra
 
 
     }
-
+    
+    private var data: List<Track> = arrayListOf()
+    
+    fun submitData(data: List<Track>) {
+        this.data = data
+        notifyDataSetChanged()
+    }
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val viewHolder = TrackViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.track_list_item,parent,false))
 

@@ -13,6 +13,7 @@ class SettingsActivity  : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        val themePrefs = (application as MyCustomApplication).themePrefs
         val arrowBack = findViewById<ImageView>(R.id.arrowBack)
 
         arrowBack.setOnClickListener{
@@ -59,6 +60,13 @@ class SettingsActivity  : AppCompatActivity() {
             i.data = Uri.parse(url)
             startActivity(i)
 
+        }
+        
+        val themeSwitcher = findViewById<SwitchCompat>(R.id.settings_dark_switch)
+        themeSwitcher.isChecked = themePrefs.isDarkMode()
+        themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
+            (application as MyCustomApplication).switchTheme(isChecked)
+            themePrefs.saveTheme(isChecked)
         }
 
     }
