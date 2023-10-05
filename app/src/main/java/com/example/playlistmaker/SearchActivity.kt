@@ -7,13 +7,20 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.model.TrackSearchResponse
+import com.google.android.material.button.MaterialButton
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class SearchActivity : AppCompatActivity() {
@@ -24,11 +31,61 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+
+
+
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-        val adapter = TrackAdapter(trackList)
-        recyclerView.adapter = adapter
+        val noResultsStub = findViewById<LinearLayout>(R.id.search_lost)
+        val connectionLost = findViewById<LinearLayout>(R.id.connection_lost)
+
+
+        val callBack = object: Callback<TrackSearchResponse> {
+            override fun onResponse(
+                call: Call<TrackSearchResponse>,
+                response: Response<TrackSearchResponse>
+            ) {
+                val body = response.body()
+                if (body == null || body.results.isEmpty()){
+                    recyclerView.visibility = GONE
+                    noResultsStub.visibility = VISIBLE
+
+                } else{
+                    recyclerView.visibility = VISIBLE
+                    noResultsStub.visibility = GONE
+                    val adapter = TrackAdapter(response.body()!!.results)
+                    recyclerView.adapter = adapter
+                }
+                connectionLost.visibility = GONE
+
+
+
+            }
+
+
+            override fun onFailure(call: Call<TrackSearchResponse>, t: Throwable) {
+                connectionLost.visibility = VISIBLE
+                recyclerView.visibility = GONE
+                noResultsStub.visibility = GONE
+
+            }
+        }
 
         inputEditText = findViewById(R.id.inputEditText)
+        inputEditText.setOnEditorActionListener{_,actionId,_->
+
+            if (actionId == EditorInfo.IME_ACTION_DONE){
+                retrofit.getTrack(inputText).enqueue(callBack)
+                true
+            } else
+                false
+        }
+
+        val refresh = findViewById<MaterialButton>(R.id.refresh)
+
+        refresh.setOnClickListener{
+
+            retrofit.getTrack(inputText).enqueue(callBack)
+        }
 
 
         val arrowBack = findViewById<ImageView>(R.id.arrowBack)
@@ -42,6 +99,10 @@ class SearchActivity : AppCompatActivity() {
         clearButton.setOnClickListener {
             inputEditText.setText("")
             hideSoftKeyboard(it)
+            recyclerView.visibility = GONE
+            noResultsStub.visibility = GONE
+            connectionLost.visibility = GONE
+
         }
 
         val simpleTextWatcher = object : TextWatcher {
