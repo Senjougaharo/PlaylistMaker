@@ -31,12 +31,15 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        val searchHistory = (application as MyCustomApplication)
+            .searchHistory
 
-
+        val historyAdapter = TrackAdapter(searchHistory.readTrackHistory()){}
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         val noResultsStub = findViewById<LinearLayout>(R.id.search_lost)
         val connectionLost = findViewById<LinearLayout>(R.id.connection_lost)
+        val trackHistory = findViewById<RecyclerView>(R.id.track_history)
 
 
         val callBack = object: Callback<TrackSearchResponse> {
@@ -52,7 +55,9 @@ class SearchActivity : AppCompatActivity() {
                 } else{
                     recyclerView.visibility = VISIBLE
                     noResultsStub.visibility = GONE
-                    val adapter = TrackAdapter(response.body()!!.results)
+                    val adapter = TrackAdapter(response.body()!!.results) {
+                        searchHistory.saveTrackToHistory(it)
+                    }
                     recyclerView.adapter = adapter
                 }
                 connectionLost.visibility = GONE
@@ -71,6 +76,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         inputEditText = findViewById(R.id.inputEditText)
+        inputEditText.requestFocus()
         inputEditText.setOnEditorActionListener{_,actionId,_->
 
             if (actionId == EditorInfo.IME_ACTION_DONE){
@@ -116,7 +122,21 @@ class SearchActivity : AppCompatActivity() {
 
                 inputText = s.toString()
 
-                Log.d("aaa", inputText)
+                noResultsStub.visibility = GONE
+
+                if (inputEditText.hasFocus() && inputEditText.text.isEmpty()) {
+                    if(searchHistory.readTrackHistory().isEmpty()) {
+                        trackHistory.visibility = GONE
+                    } else {
+                        trackHistory.visibility = VISIBLE
+                    }
+                    recyclerView.visibility = GONE
+                    connectionLost.visibility = GONE
+                    noResultsStub.visibility = GONE
+                } else {
+                    trackHistory.visibility = GONE
+                    recyclerView.visibility = VISIBLE
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {

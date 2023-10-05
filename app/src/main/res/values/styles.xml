@@ -107,6 +107,12 @@
         <item name="android:src">@drawable/internet_lost_stop_light</item>
     </style>
 
+    <style name="InfoButton">
+        <item name="android:textColor">@color/white_to_black</item>
+        <item name="android:backgroundTint">@color/black_to_white</item>
+        <item name="cornerRadius">54dp</item>
+    </style>
+
 
 
 
