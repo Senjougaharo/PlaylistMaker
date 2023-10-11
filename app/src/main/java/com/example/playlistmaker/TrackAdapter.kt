@@ -10,15 +10,25 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.model.Track
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class TrackAdapter(private val onClick: (Track) -> Unit): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
    
    inner class TrackViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
+
+
+
+       fun getSimpleDataFormat(track:Track) : String{
+           return SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+       }
         fun bind(track: Track){
             itemView.findViewById<TextView>(R.id.track_name).text = track.trackName
             itemView.findViewById<TextView>(R.id.artist_name).text = track.artistName
-            itemView.findViewById<TextView>(R.id.duration).text = track.trackTime
+            itemView.findViewById<TextView>(R.id.duration).text = getSimpleDataFormat(track)
+
             val cover = itemView.findViewById<ImageView>(R.id.cover)
             Glide.with(cover)
                 .load(track.artworkUrl100)
@@ -32,6 +42,7 @@ class TrackAdapter(private val onClick: (Track) -> Unit): RecyclerView.Adapter<T
             itemView.setOnClickListener{
 
                 onClick.invoke(track)
+
             }
 
         }
