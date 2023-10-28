@@ -76,6 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:visibility="gone"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
@@ -96,6 +97,16 @@
         android:layout_gravity="center"
         android:layout_marginTop="102dp"
         android:visibility="gone"/>
+
+    <include
+        android:id="@+id/track_history"
+        layout="@layout/search_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+
 
 
 

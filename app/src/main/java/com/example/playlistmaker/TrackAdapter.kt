@@ -10,15 +10,25 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.model.Track
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class TrackAdapter(private val data: ArrayList<Track>): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+class TrackAdapter(private val onClick: (Track) -> Unit): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+   
+   inner class TrackViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
-    class TrackViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
+
+
+       fun getSimpleDataFormat(track:Track) : String{
+           return SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+       }
         fun bind(track: Track){
             itemView.findViewById<TextView>(R.id.track_name).text = track.trackName
             itemView.findViewById<TextView>(R.id.artist_name).text = track.artistName
-            itemView.findViewById<TextView>(R.id.duration).text = track.trackTime
+            itemView.findViewById<TextView>(R.id.duration).text = getSimpleDataFormat(track)
+
             val cover = itemView.findViewById<ImageView>(R.id.cover)
             Glide.with(cover)
                 .load(track.artworkUrl100)
@@ -29,11 +39,24 @@ class TrackAdapter(private val data: ArrayList<Track>): RecyclerView.Adapter<Tra
                 .placeholder(R.drawable.placeholder)
                 .into(cover)
 
+            itemView.setOnClickListener{
+
+                onClick.invoke(track)
+
+            }
+
         }
 
 
     }
-
+    
+    private var data: List<Track> = arrayListOf()
+    
+    fun submitData(data: List<Track>) {
+        this.data = data
+        notifyDataSetChanged()
+    }
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val viewHolder = TrackViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.track_list_item,parent,false))
 
