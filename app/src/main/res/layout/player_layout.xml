@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+
+        android:id="@+id/left16dpGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+
+        android:id="@+id/left24dpGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+
+        android:id="@+id/right16dpGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+
+        android:id="@+id/right24dpGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp"/>
+
+    <ImageView
+        android:id="@+id/arrowBack"
+        style="@style/TypicalArrowBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
+        app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/arrowBack"
+        tools:src="@android:drawable/btn_minus" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
+        app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
+        tools:text="Песня" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/playButton"
+        app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
+        app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
+        tools:text="Исполнитель" />
+
+    <ImageView
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/play_button"
+        app:layout_constraintBottom_toTopOf="@+id/playTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/playlist"
+        app:layout_constraintBottom_toBottomOf="@+id/playButton"
+        app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
+        app:layout_constraintTop_toTopOf="@+id/playButton" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/like"
+        app:layout_constraintBottom_toBottomOf="@+id/playButton"
+        app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
+        app:layout_constraintTop_toTopOf="@+id/playButton" />
+
+    <TextView
+        android:id="@+id/playTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/duration"
+        app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
+        app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
+        tools:text="Время" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/album"
+        app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
+        tools:text="default" />
+
+    <TextView
+        android:id="@+id/album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/year"
+        app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
+        tools:text="default" />
+
+    <TextView
+        android:id="@+id/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/genre"
+        app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
+        tools:text="default" />
+
+    <TextView
+        android:id="@+id/genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/country"
+        app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
+        tools:text="default" />
+
+    <TextView
+        android:id="@+id/country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
+        tools:text="default"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/durationValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="default"
+        app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
+        app:layout_constraintLeft_toRightOf="@id/duration"
+        app:layout_constraintTop_toTopOf="@id/duration"
+        app:layout_constraintBottom_toBottomOf="@id/duration"/>
+
+    <TextView
+        android:id="@+id/albumValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="default"
+        app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
+        app:layout_constraintLeft_toRightOf="@id/album"
+        app:layout_constraintTop_toTopOf="@id/album"
+        app:layout_constraintBottom_toBottomOf="@id/album"
+        />
+
+    <TextView
+        android:id="@+id/yearValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="default"
+        app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
+        app:layout_constraintLeft_toRightOf="@id/year"
+        app:layout_constraintTop_toTopOf="@id/year"
+        app:layout_constraintBottom_toBottomOf="@id/year"/>
+
+    <TextView
+        android:id="@+id/genreValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="default"
+        app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
+        app:layout_constraintLeft_toRightOf="@id/genre"
+        app:layout_constraintTop_toTopOf="@id/genre"
+        app:layout_constraintBottom_toBottomOf="@id/genre"/>
+
+    <TextView
+        android:id="@+id/countryValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="default"
+        app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
+        app:layout_constraintLeft_toRightOf="@id/country"
+        app:layout_constraintTop_toTopOf="@id/country"
+        app:layout_constraintBottom_toBottomOf="@id/country"/>
+
+
+    
+</androidx.constraintlayout.widget.ConstraintLayout>
