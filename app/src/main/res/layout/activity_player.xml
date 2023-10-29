@@ -188,7 +188,6 @@
         android:layout_height="wrap_content"
         tools:text="default"
         android:maxLines="1"
-        android:maxLength="15"
         android:ellipsize="end"
         app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
         app:layout_constraintLeft_toRightOf="@id/album"
