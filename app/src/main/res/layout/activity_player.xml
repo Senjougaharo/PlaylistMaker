@@ -46,36 +46,38 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/trackCover"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="26dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/trackName"
         app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
         app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
         app:layout_constraintTop_toBottomOf="@+id/arrowBack"
-        tools:src="@android:drawable/btn_minus" />
+        tools:src = "@drawable/placeholder" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/trackName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintBottom_toTopOf="@+id/trackArtist"
         app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
         app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
-        tools:text="Песня" />
+        tools:text="Песня"
+        android:textAppearance="@style/PlayerTrackName"/>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/trackArtist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/playButton"
         app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
         app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
-        tools:text="Исполнитель" />
+        tools:text="Исполнитель"
+        android:textAppearance="@style/PlayerArtistName"/>
 
     <ImageView
         android:id="@+id/playButton"
@@ -111,7 +113,8 @@
         app:layout_constraintBottom_toTopOf="@+id/duration"
         app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
         app:layout_constraintStart_toStartOf="@+id/left24dpGuideline"
-        tools:text="Время" />
+        android:text="0:30"
+        android:textAppearance="@style/PlayerArtistName"/>
 
     <TextView
         android:id="@+id/duration"
@@ -121,7 +124,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/album"
         app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
-        tools:text="default" />
+        android:text="@string/duration"
+        android:textAppearance="@style/TrackAttributes"/>
 
     <TextView
         android:id="@+id/album"
@@ -131,7 +135,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/year"
         app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
-        tools:text="default" />
+        android:text="@string/album"
+        android:textAppearance="@style/TrackAttributes"/>
 
     <TextView
         android:id="@+id/year"
@@ -141,7 +146,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/genre"
         app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
-        tools:text="default" />
+        android:text="@string/year"
+        android:textAppearance="@style/TrackAttributes"/>
 
     <TextView
         android:id="@+id/genre"
@@ -151,7 +157,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/country"
         app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
-        tools:text="default" />
+        android:text="@string/genre"
+        android:textAppearance="@style/TrackAttributes"/>
 
     <TextView
         android:id="@+id/country"
@@ -160,8 +167,9 @@
         android:layout_marginTop="9dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/left16dpGuideline"
-        tools:text="default"
-        android:layout_marginBottom="20dp"/>
+        android:text="@string/country"
+        android:layout_marginBottom="20dp"
+        android:textAppearance="@style/TrackAttributes"/>
 
     <TextView
         android:id="@+id/durationValue"
@@ -171,17 +179,22 @@
         app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
         app:layout_constraintLeft_toRightOf="@id/duration"
         app:layout_constraintTop_toTopOf="@id/duration"
-        app:layout_constraintBottom_toBottomOf="@id/duration"/>
+        app:layout_constraintBottom_toBottomOf="@id/duration"
+        android:textAppearance="@style/TrackAttributesValue"/>
 
     <TextView
         android:id="@+id/albumValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="default"
+        android:maxLines="1"
+        android:maxLength="15"
+        android:ellipsize="end"
         app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
         app:layout_constraintLeft_toRightOf="@id/album"
         app:layout_constraintTop_toTopOf="@id/album"
         app:layout_constraintBottom_toBottomOf="@id/album"
+        android:textAppearance="@style/TrackAttributesValue"
         />
 
     <TextView
@@ -192,7 +205,8 @@
         app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
         app:layout_constraintLeft_toRightOf="@id/year"
         app:layout_constraintTop_toTopOf="@id/year"
-        app:layout_constraintBottom_toBottomOf="@id/year"/>
+        app:layout_constraintBottom_toBottomOf="@id/year"
+        android:textAppearance="@style/TrackAttributesValue"/>
 
     <TextView
         android:id="@+id/genreValue"
@@ -202,7 +216,8 @@
         app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
         app:layout_constraintLeft_toRightOf="@id/genre"
         app:layout_constraintTop_toTopOf="@id/genre"
-        app:layout_constraintBottom_toBottomOf="@id/genre"/>
+        app:layout_constraintBottom_toBottomOf="@id/genre"
+        android:textAppearance="@style/TrackAttributesValue"/>
 
     <TextView
         android:id="@+id/countryValue"
@@ -212,7 +227,8 @@
         app:layout_constraintEnd_toEndOf="@id/right16dpGuideline"
         app:layout_constraintLeft_toRightOf="@id/country"
         app:layout_constraintTop_toTopOf="@id/country"
-        app:layout_constraintBottom_toBottomOf="@id/country"/>
+        app:layout_constraintBottom_toBottomOf="@id/country"
+        android:textAppearance="@style/TrackAttributesValue"/>
 
 
     
