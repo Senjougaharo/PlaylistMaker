@@ -2,10 +2,7 @@ package com.example.playlistmaker
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -17,7 +14,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -30,81 +26,35 @@ import retrofit2.Response
 
 
 class SearchActivity : AppCompatActivity() {
-
-    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view)}
-    private val noResultsStub by lazy{ findViewById<LinearLayout>(R.id.search_lost)}
-    private val connectionLost  by lazy { findViewById<LinearLayout>(R.id.connection_lost)}
-    private val trackHistoryRecycler by lazy { findViewById<RecyclerView>(R.id.track_history_recycler)}
-    private val trackHistory by lazy { findViewById<ScrollView>(R.id.track_history)}
-    private val clearHistoryButton by lazy { findViewById<MaterialButton>(R.id.clear_history_button) }
-    private val progressBar by lazy {findViewById<ProgressBar>(R.id.progressBar)}
-
-    private val mainHandler = Handler(Looper.getMainLooper())
-
-    val trackAdapter = TrackAdapter {
-        searchHistory.saveTrackToHistory(it)
-        historyAdapter.submitData(searchHistory.readTrackHistory())
-
-        openPlayer(it)
-    }
-
-    val searchHistory by lazy{ (application as MyCustomApplication).searchHistory}
-
-    val historyAdapter = TrackAdapter {
-        openPlayer(it)
-    }
-
-    private val searchRunnable = Runnable{
-
-        progressBar.visibility = VISIBLE
-        recyclerView.visibility = GONE
-
-        searchTrack()
-
-
-
-    }
-
-    val callBack = object : Callback<TrackSearchResponse> {
-        override fun onResponse(
-            call: Call<TrackSearchResponse>,
-            response: Response<TrackSearchResponse>
-        ) {
-            val body = response.body()
-            if (body == null || body.results.isEmpty()) {
-                recyclerView.visibility = GONE
-                noResultsStub.visibility = VISIBLE
-
-            } else {
-                recyclerView.visibility = VISIBLE
-                noResultsStub.visibility = GONE
-                trackAdapter.submitData(response.body()!!.results)
-            }
-            connectionLost.visibility = GONE
-            progressBar.visibility = GONE
-        }
-
-
-        override fun onFailure(call: Call<TrackSearchResponse>, t: Throwable) {
-            connectionLost.visibility = VISIBLE
-            recyclerView.visibility = GONE
-            noResultsStub.visibility = GONE
-
-        }
-    }
-
+    
     lateinit var inputEditText: EditText
     var inputText: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         
+        val searchHistory = (application as MyCustomApplication)
+            .searchHistory
 
+        val historyAdapter = TrackAdapter {
+            openPlayer(it)
+        }
+        val trackAdapter = TrackAdapter {
+            searchHistory.saveTrackToHistory(it)
+            historyAdapter.submitData(searchHistory.readTrackHistory())
 
-
-
+            openPlayer(it)
+        }
+        
+        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+        val noResultsStub = findViewById<LinearLayout>(R.id.search_lost)
+        val connectionLost = findViewById<LinearLayout>(R.id.connection_lost)
+        val trackHistoryRecycler = findViewById<RecyclerView>(R.id.track_history_recycler)
+        val trackHistory = findViewById<ScrollView>(R.id.track_history)
+        val clearHistoryButton = findViewById<MaterialButton>(R.id.clear_history_button)
         val tracksHistoryList = searchHistory.readTrackHistory()
 
+        
         recyclerView.adapter = trackAdapter
         historyAdapter.submitData(tracksHistoryList)
         trackHistoryRecycler.adapter = historyAdapter
@@ -118,18 +68,49 @@ class SearchActivity : AppCompatActivity() {
             historyAdapter.submitData(emptyList())
             trackHistory.visibility = GONE
         }
-
+        val callBack = object : Callback<TrackSearchResponse> {
+            override fun onResponse(
+                call: Call<TrackSearchResponse>,
+                response: Response<TrackSearchResponse>
+            ) {
+                val body = response.body()
+                if (body == null || body.results.isEmpty()) {
+                    recyclerView.visibility = GONE
+                    noResultsStub.visibility = VISIBLE
+                    
+                } else {
+                    recyclerView.visibility = VISIBLE
+                    noResultsStub.visibility = GONE
+                    trackAdapter.submitData(response.body()!!.results)
+                }
+                connectionLost.visibility = GONE
+            }
+            
+            
+            override fun onFailure(call: Call<TrackSearchResponse>, t: Throwable) {
+                connectionLost.visibility = VISIBLE
+                recyclerView.visibility = GONE
+                noResultsStub.visibility = GONE
+                
+            }
+        }
         
         inputEditText = findViewById(R.id.inputEditText)
         inputEditText.requestFocus()
-
-
+        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+            
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                retrofit.getTrack(inputText).enqueue(callBack)
+                true
+            } else
+                false
+        }
         
         val refresh = findViewById<MaterialButton>(R.id.refresh)
         
         refresh.setOnClickListener {
             
-            searchTrack()
+            retrofit.getTrack(inputText).enqueue(callBack)
         }
         
         
@@ -158,8 +139,6 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 
                 clearButton.visibility = clearButtonVisibility(s)
-
-                searchDebounce()
                 
                 inputText = s.toString()
                 
@@ -214,8 +193,6 @@ class SearchActivity : AppCompatActivity() {
     
     companion object {
         const val BUBA = "BUBA"
-
-        const val SEARCH_DELAY = 2000L
     }
 
     private fun openPlayer(track:Track){
@@ -227,15 +204,7 @@ class SearchActivity : AppCompatActivity() {
         val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
-    private fun searchDebounce(){
-        mainHandler.removeCallbacks(searchRunnable)
-        mainHandler.postDelayed(searchRunnable, SEARCH_DELAY)
-    }
-
-    private fun searchTrack(){
-        retrofit.getTrack(inputText).enqueue(callBack)
-    }
+    
 }
 
 
