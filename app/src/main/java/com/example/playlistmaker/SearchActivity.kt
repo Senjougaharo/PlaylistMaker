@@ -1,6 +1,7 @@
 package com.example.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.model.Track
 import com.example.playlistmaker.model.TrackSearchResponse
 import com.google.android.material.button.MaterialButton
 import retrofit2.Call
@@ -33,11 +35,15 @@ class SearchActivity : AppCompatActivity() {
         
         val searchHistory = (application as MyCustomApplication)
             .searchHistory
-        
-        val historyAdapter = TrackAdapter {}
+
+        val historyAdapter = TrackAdapter {
+            openPlayer(it)
+        }
         val trackAdapter = TrackAdapter {
             searchHistory.saveTrackToHistory(it)
             historyAdapter.submitData(searchHistory.readTrackHistory())
+
+            openPlayer(it)
         }
         
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
@@ -187,6 +193,11 @@ class SearchActivity : AppCompatActivity() {
     
     companion object {
         const val BUBA = "BUBA"
+    }
+
+    private fun openPlayer(track:Track){
+        val intent = Intent(this, PlayerActivity::class.java).putExtra("track", track)
+        startActivity(intent)
     }
     
     private fun hideSoftKeyboard(view: View) {

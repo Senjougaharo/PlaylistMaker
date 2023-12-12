@@ -113,6 +113,36 @@
         <item name="cornerRadius">54dp</item>
     </style>
 
+    <style name="TrackAttributes">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
+    <style name="TrackAttributesValue">
+        <item name="android:textColor">@color/black_to_white</item>
+        <item name="android:textSize">13sp</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="PlayerTrackName">
+        <item name="android:textColor">@color/black_to_white</item>
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="PlayerArtistName">
+        <item name="android:textColor">@color/black_to_white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 
 
 
