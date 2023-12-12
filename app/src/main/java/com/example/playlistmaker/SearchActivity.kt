@@ -38,7 +38,6 @@ class SearchActivity : AppCompatActivity() {
     private val trackHistory by lazy { findViewById<ScrollView>(R.id.track_history)}
     private val clearHistoryButton by lazy { findViewById<MaterialButton>(R.id.clear_history_button) }
     private val progressBar by lazy {findViewById<ProgressBar>(R.id.progressBar)}
-    private var isClickAllowed = true
 
     private val mainHandler = Handler(Looper.getMainLooper())
 
@@ -217,15 +216,11 @@ class SearchActivity : AppCompatActivity() {
         const val BUBA = "BUBA"
 
         const val SEARCH_DELAY = 2000L
-
-        const val CLICK_DELAY = 1000L
     }
 
     private fun openPlayer(track:Track){
-        if (clickDebounce()){
         val intent = Intent(this, PlayerActivity::class.java).putExtra("track", track)
         startActivity(intent)
-    }
     }
     
     private fun hideSoftKeyboard(view: View) {
@@ -240,19 +235,6 @@ class SearchActivity : AppCompatActivity() {
 
     private fun searchTrack(){
         retrofit.getTrack(inputText).enqueue(callBack)
-    }
-
-    private fun clickDebounce(): Boolean {
-
-        val current = isClickAllowed
-        if (isClickAllowed){
-            isClickAllowed = false
-            mainHandler.postDelayed({isClickAllowed = true}, CLICK_DELAY)
-
-
-        }
-
-        return current
     }
 }
 
