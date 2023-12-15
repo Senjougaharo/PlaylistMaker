@@ -1,16 +1,17 @@
 package com.example.playlistmaker.data
 
 import android.content.SharedPreferences
+import com.example.playlistmaker.domain.SearchHistoryStorage
 import com.example.playlistmaker.domain.model.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchHistory(val sharedPreferences: SharedPreferences, val gson: Gson = Gson()) {
+class SearchHistoryStorageImpl(val sharedPreferences: SharedPreferences, val gson: Gson = Gson()) : SearchHistoryStorage {
     
     
     val typeToken = object : TypeToken<ArrayList<Track>>() {}.type
     
-    fun saveTrackToHistory(track: Track) {
+    override fun saveTrackToHistory(track: Track) {
         
         val trackListJson = sharedPreferences.getString(HISTORY_KEY, "")
         
@@ -27,7 +28,7 @@ class SearchHistory(val sharedPreferences: SharedPreferences, val gson: Gson = G
             .apply()
     }
     
-    fun readTrackHistory(): List<Track> {
+    override fun readTrackHistory(): List<Track> {
         
         val trackListJson = sharedPreferences.getString(HISTORY_KEY, "")
         
@@ -38,7 +39,7 @@ class SearchHistory(val sharedPreferences: SharedPreferences, val gson: Gson = G
         
     }
     
-    fun clearHistory() {
+    override fun clearHistory() {
         sharedPreferences.edit().clear().apply()
     }
     

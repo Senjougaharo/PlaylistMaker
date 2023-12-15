@@ -39,7 +39,6 @@ class SearchActivity : AppCompatActivity() {
     private val clearHistoryButton by lazy { findViewById<MaterialButton>(R.id.clear_history_button) }
     private val progressBar by lazy {findViewById<ProgressBar>(R.id.progressBar)}
     private var isClickAllowed = true
-
     private val mainHandler = Handler(Looper.getMainLooper())
 
     val trackAdapter = TrackAdapter {
@@ -49,7 +48,7 @@ class SearchActivity : AppCompatActivity() {
         openPlayer(it)
     }
 
-    val searchHistory by lazy{ (application as MyCustomApplication).searchHistory}
+    val searchHistory by lazy{ (application as MyCustomApplication).searchHistoryStorage}
 
     val historyAdapter = TrackAdapter {
         openPlayer(it)
