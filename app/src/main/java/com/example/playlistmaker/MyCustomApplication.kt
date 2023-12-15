@@ -1,8 +1,9 @@
 package com.example.playlistmaker
 
 import android.app.Application
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.data.SearchHistory
+import com.example.playlistmaker.data.ThemePrefs
 
 class MyCustomApplication : Application() {
 
@@ -26,19 +27,6 @@ class MyCustomApplication : Application() {
             }
         )
     }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-    }
-
-
-
-
-
 
 }
 

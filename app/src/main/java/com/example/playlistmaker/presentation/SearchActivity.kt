@@ -1,18 +1,15 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -21,8 +18,11 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.model.Track
-import com.example.playlistmaker.model.TrackSearchResponse
+import com.example.playlistmaker.MyCustomApplication
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.domain.model.TrackSearchResponse
+import com.example.playlistmaker.data.retrofit
 import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback
@@ -221,7 +221,7 @@ class SearchActivity : AppCompatActivity() {
         const val CLICK_DELAY = 1000L
     }
 
-    private fun openPlayer(track:Track){
+    private fun openPlayer(track: Track){
         if (clickDebounce()){
         val intent = Intent(this, PlayerActivity::class.java).putExtra("track", track)
         startActivity(intent)
