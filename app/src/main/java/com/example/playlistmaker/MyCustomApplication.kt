@@ -12,22 +12,20 @@ import com.example.playlistmaker.settings.domain.ThemeInteractor
 
 class MyCustomApplication : Application() {
 
-        lateinit var searchHistoryStorage: SearchHistoryStorage
-        lateinit var themeInteractor: ThemeInteractor
-        lateinit var viewModelFactory : ViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
     override fun onCreate() {
         super.onCreate()
 
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        themeInteractor = ThemeInteractorImpl(sharedPreferences)
+        val themeInteractor = ThemeInteractorImpl(sharedPreferences)
+        val searchHistoryStorage = SearchHistoryStorageImpl(sharedPreferences)
         val remoteRepository = RemoteRepositoryImpl(retrofit)
-        val searchInteractor = SearchInteractor(remoteRepository)
+        val searchInteractor = SearchInteractor(remoteRepository, searchHistoryStorage)
         viewModelFactory = ViewModelFactory(themeInteractor, searchInteractor)
-        searchHistoryStorage = SearchHistoryStorageImpl(sharedPreferences)
         val isDarkMode = themeInteractor.isDarkMode()
         switchTheme(isDarkMode)
     }
-    
+
     fun switchTheme(darkThemeEnabled: Boolean) {
         AppCompatDelegate.setDefaultNightMode(
             if (darkThemeEnabled) {

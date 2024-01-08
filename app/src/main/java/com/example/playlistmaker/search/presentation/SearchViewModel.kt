@@ -11,9 +11,9 @@ import com.example.playlistmaker.search.domain.TrackSearchCallback
 class SearchViewModel(private val interactor: SearchInteractor) : ViewModel() {
 
     private val _liveData = MutableLiveData<SearchState>()
-    val liveData : LiveData<SearchState> = _liveData
+    val liveData: LiveData<SearchState> = _liveData
 
-    fun searchTracks(inputText: String){
+    fun searchTracks(inputText: String) {
         val callback = object : TrackSearchCallback {
             override fun onSuccess(trackList: List<Track>) {
                 _liveData.value = SearchState.Success(trackList)
@@ -24,5 +24,17 @@ class SearchViewModel(private val interactor: SearchInteractor) : ViewModel() {
             }
         }
         interactor.searchTracks(inputText, callback)
+    }
+
+    fun saveTrackToHistory(track: Track) {
+        interactor.saveTrackToHistory(track)
+    }
+
+    fun readTrackHistory(): List<Track> {
+        return interactor.readTrackHistory()
+    }
+
+    fun clearHistory() {
+        interactor.clearHistory()
     }
 }

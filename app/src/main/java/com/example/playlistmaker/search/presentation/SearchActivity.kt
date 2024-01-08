@@ -22,13 +22,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.MyCustomApplication
 import com.example.playlistmaker.R
 import com.example.playlistmaker.player.domain.model.Track
-import com.example.playlistmaker.search.data.TrackSearchResponse
 import com.example.playlistmaker.player.presentation.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
 import com.google.android.material.button.MaterialButton
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class SearchActivity : AppCompatActivity() {
@@ -45,16 +41,14 @@ class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
     private val mainHandler = Handler(Looper.getMainLooper())
 
-    val trackAdapter = TrackAdapter {
-        searchHistory.saveTrackToHistory(it)
-        historyAdapter.submitData(searchHistory.readTrackHistory())
+    private val trackAdapter = TrackAdapter {
+        viewModel.saveTrackToHistory(it)
+        historyAdapter.submitData(viewModel.readTrackHistory())
 
         openPlayer(it)
     }
 
-    val searchHistory by lazy { (application as MyCustomApplication).searchHistoryStorage }
-
-    val historyAdapter = TrackAdapter {
+    private val historyAdapter = TrackAdapter {
         openPlayer(it)
     }
 
@@ -100,7 +94,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
 
-        val tracksHistoryList = searchHistory.readTrackHistory()
+        val tracksHistoryList = viewModel.readTrackHistory()
 
         recyclerView.adapter = trackAdapter
         historyAdapter.submitData(tracksHistoryList)
@@ -111,7 +105,7 @@ class SearchActivity : AppCompatActivity() {
             trackHistory.visibility = VISIBLE
         }
         clearHistoryButton.setOnClickListener {
-            searchHistory.clearHistory()
+            viewModel.clearHistory()
             historyAdapter.submitData(emptyList())
             trackHistory.visibility = GONE
         }
@@ -162,7 +156,7 @@ class SearchActivity : AppCompatActivity() {
                 noResultsStub.visibility = GONE
 
                 if (inputEditText.hasFocus() && inputEditText.text.isEmpty()) {
-                    if (searchHistory.readTrackHistory().isEmpty()) {
+                    if (viewModel.readTrackHistory().isEmpty()) {
                         trackHistory.visibility = GONE
                     } else {
                         trackHistory.visibility = VISIBLE
