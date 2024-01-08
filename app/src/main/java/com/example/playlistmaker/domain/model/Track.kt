@@ -1,6 +1,6 @@
-package com.example.playlistmaker.model
+package com.example.playlistmaker.domain.model
 
-import android.widget.TextView
+
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Locale

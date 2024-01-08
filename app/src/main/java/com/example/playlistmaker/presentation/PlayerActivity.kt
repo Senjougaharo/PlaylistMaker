@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.playlistmaker.model.Track
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.model.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -27,7 +28,7 @@ class PlayerActivity : AppCompatActivity() {
         override fun run() {
             playTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(counter)
 
-            counter +=DELAY
+            counter += DELAY
 
             mainHandler.postDelayed(this, DELAY)
         }
@@ -37,21 +38,21 @@ class PlayerActivity : AppCompatActivity() {
 
     private val playTime by lazy {findViewById<TextView>(R.id.playTime)}
 
-    val trackCover by lazy {findViewById<ImageView>(R.id.trackCover)}
+    private val trackCover by lazy {findViewById<ImageView>(R.id.trackCover)}
 
-    val trackName by lazy {findViewById<TextView>(R.id.trackName)}
+    private val trackName by lazy {findViewById<TextView>(R.id.trackName)}
 
-    val trackArtist by lazy {findViewById<TextView>(R.id.trackArtist)}
+    private val trackArtist by lazy {findViewById<TextView>(R.id.trackArtist)}
 
-    val duration by lazy {findViewById<TextView>(R.id.durationValue)}
+    private val duration by lazy {findViewById<TextView>(R.id.durationValue)}
 
-    val album by lazy {findViewById<TextView>(R.id.albumValue)}
+    private val album by lazy {findViewById<TextView>(R.id.albumValue)}
 
-    val year by lazy {findViewById<TextView>(R.id.yearValue)}
+    private val year by lazy {findViewById<TextView>(R.id.yearValue)}
 
-    val genre by lazy {findViewById<TextView>(R.id.genreValue)}
+    private val genre by lazy {findViewById<TextView>(R.id.genreValue)}
 
-    val country by lazy {findViewById<TextView>(R.id.countryValue)}
+    private val country by lazy {findViewById<TextView>(R.id.countryValue)}
 
 
     private var currentState = STATE_DEFAULT

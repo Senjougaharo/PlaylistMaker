@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.playlistmaker.model.Track
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.model.Track
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 class TrackAdapter(private val onClick: (Track) -> Unit): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
@@ -21,7 +21,7 @@ class TrackAdapter(private val onClick: (Track) -> Unit): RecyclerView.Adapter<T
 
 
 
-       fun getSimpleDataFormat(track:Track) : String{
+       fun getSimpleDataFormat(track: Track) : String{
            return SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
        }
         fun bind(track: Track){

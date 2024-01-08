@@ -1,14 +1,15 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.data
 
 import android.content.SharedPreferences
+import com.example.playlistmaker.domain.ThemePrefs
 
-class ThemePrefs(val sharedPreferences: SharedPreferences) {
+class ThemePrefsImpl(val sharedPreferences: SharedPreferences) : ThemePrefs {
     
-    fun saveTheme(isDarkMode: Boolean) {
+    override fun saveTheme(isDarkMode: Boolean) {
         sharedPreferences.edit().putBoolean(THEME_KEY, isDarkMode).apply()
     }
     
-    fun isDarkMode(): Boolean {
+    override fun isDarkMode(): Boolean {
         return sharedPreferences.getBoolean(THEME_KEY, false)
     }
     
