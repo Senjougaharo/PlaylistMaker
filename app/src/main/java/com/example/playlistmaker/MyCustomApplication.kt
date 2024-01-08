@@ -2,10 +2,10 @@ package com.example.playlistmaker
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmaker.data.SearchHistoryStorageImpl
-import com.example.playlistmaker.data.ThemePrefsImpl
-import com.example.playlistmaker.domain.SearchHistoryStorage
-import com.example.playlistmaker.domain.ThemePrefs
+import com.example.playlistmaker.search.data.SearchHistoryStorageImpl
+import com.example.playlistmaker.settings.data.ThemePrefsImpl
+import com.example.playlistmaker.search.domain.SearchHistoryStorage
+import com.example.playlistmaker.settings.domain.ThemePrefs
 
 class MyCustomApplication : Application() {
 

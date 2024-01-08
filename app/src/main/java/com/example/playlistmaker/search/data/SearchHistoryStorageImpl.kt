@@ -1,12 +1,13 @@
-package com.example.playlistmaker.data
+package com.example.playlistmaker.search.data
 
 import android.content.SharedPreferences
-import com.example.playlistmaker.domain.SearchHistoryStorage
-import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.search.domain.SearchHistoryStorage
+import com.example.playlistmaker.player.domain.model.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchHistoryStorageImpl(val sharedPreferences: SharedPreferences, val gson: Gson = Gson()) : SearchHistoryStorage {
+class SearchHistoryStorageImpl(val sharedPreferences: SharedPreferences, val gson: Gson = Gson()) :
+    SearchHistoryStorage {
     
     
     val typeToken = object : TypeToken<ArrayList<Track>>() {}.type

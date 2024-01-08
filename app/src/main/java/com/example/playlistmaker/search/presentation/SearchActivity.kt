@@ -1,4 +1,4 @@
-package com.example.playlistmaker.presentation
+package com.example.playlistmaker.search.presentation
 
 import android.content.Context
 import android.content.Intent
@@ -20,9 +20,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.MyCustomApplication
 import com.example.playlistmaker.R
-import com.example.playlistmaker.domain.model.Track
-import com.example.playlistmaker.domain.model.TrackSearchResponse
-import com.example.playlistmaker.data.retrofit
+import com.example.playlistmaker.player.domain.model.Track
+import com.example.playlistmaker.search.data.TrackSearchResponse
+import com.example.playlistmaker.search.data.retrofit
+import com.example.playlistmaker.player.presentation.PlayerActivity
 import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback

@@ -1,6 +1,6 @@
-package com.example.playlistmaker.domain
+package com.example.playlistmaker.search.domain
 
-import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.player.domain.model.Track
 
 interface SearchHistoryStorage {
 
