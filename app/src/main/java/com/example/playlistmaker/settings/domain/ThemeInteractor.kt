@@ -1,6 +1,6 @@
 package com.example.playlistmaker.settings.domain
 
-interface ThemePrefs {
+interface ThemeInteractor {
 
     fun saveTheme(isDarkMode: Boolean)
 

@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.settings.domain.ThemePrefs
+import com.example.playlistmaker.settings.domain.ThemeInteractor
 
-class SettingsViewModel(private val themePrefs: ThemePrefs) : ViewModel() {
+class SettingsViewModel(private val themeInteractor: ThemeInteractor) : ViewModel() {
 
-    private val _liveData = MutableLiveData(themePrefs.isDarkMode())
+    private val _liveData = MutableLiveData(themeInteractor.isDarkMode())
 
     val liveData: LiveData<Boolean> = _liveData
 
@@ -51,7 +51,7 @@ class SettingsViewModel(private val themePrefs: ThemePrefs) : ViewModel() {
                 AppCompatDelegate.MODE_NIGHT_NO
             }
         )
-        themePrefs.saveTheme(darkThemeEnabled)
+        themeInteractor.saveTheme(darkThemeEnabled)
         _liveData.value = darkThemeEnabled
     }
 }
