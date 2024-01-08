@@ -1,7 +1,6 @@
 package com.example.playlistmaker.settings.presentation
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,7 +16,7 @@ class SettingsActivity  : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        val viewModelFactory = (application as MyCustomApplication).settingsViewModelFactory
+        val viewModelFactory = (application as MyCustomApplication).viewModelFactory
         val themeSwitcher = findViewById<SwitchCompat>(R.id.settings_dark_switch)
         viewModel = ViewModelProvider(this, viewModelFactory)[SettingsViewModel::class.java]
         viewModel.liveData.observe(this){
