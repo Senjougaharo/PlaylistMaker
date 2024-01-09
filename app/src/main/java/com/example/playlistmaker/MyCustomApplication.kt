@@ -7,19 +7,21 @@ import com.example.playlistmaker.search.data.SearchHistoryStorageImpl
 import com.example.playlistmaker.search.data.retrofit
 import com.example.playlistmaker.settings.data.ThemeInteractorImpl
 import com.example.playlistmaker.search.data.SearchInteractorImpl
+import com.example.playlistmaker.search.domain.SearchInteractor
+import com.example.playlistmaker.settings.domain.ThemeInteractor
 
 class MyCustomApplication : Application() {
 
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var searchInteractor: SearchInteractor
+    lateinit var themeInteractor: ThemeInteractor
     override fun onCreate() {
         super.onCreate()
 
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        val themeInteractor = ThemeInteractorImpl(sharedPreferences)
+        themeInteractor = ThemeInteractorImpl(sharedPreferences)
         val searchHistoryStorage = SearchHistoryStorageImpl(sharedPreferences)
         val remoteRepository = RemoteRepositoryImpl(retrofit)
-        val searchInteractor = SearchInteractorImpl(remoteRepository, searchHistoryStorage)
-        viewModelFactory = ViewModelFactory(themeInteractor, searchInteractor)
+        searchInteractor = SearchInteractorImpl(remoteRepository, searchHistoryStorage)
         val isDarkMode = themeInteractor.isDarkMode()
         switchTheme(isDarkMode)
     }

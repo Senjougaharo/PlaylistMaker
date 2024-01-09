@@ -15,7 +15,7 @@ class RemoteRepositoryImpl(private val trackApi: TrackAPI) : RemoteRepository {
                 response: Response<TrackSearchResponse>
             ) {
                 val body = response.body()
-                if (body == null || body.results.isEmpty()){
+                if (body == null){
                     callback.onError("Data is null")
                 } else{
                     callback.onSuccess(body.results)

@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.MyCustomApplication
 import com.example.playlistmaker.R
+import com.example.playlistmaker.ViewModelFactory
 import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.player.presentation.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
@@ -67,7 +68,8 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        val viewModelFactory = (application as MyCustomApplication).viewModelFactory
+        val app = (application as MyCustomApplication)
+        val viewModelFactory = ViewModelFactory(app.themeInteractor, app.searchInteractor)
         viewModel = ViewModelProvider(this, viewModelFactory)[SearchViewModel::class.java]
         viewModel.liveData.observe(this) { state ->
             when (state){
@@ -87,7 +89,6 @@ class SearchActivity : AppCompatActivity() {
                     connectionLost.visibility = VISIBLE
                     recyclerView.visibility = GONE
                     noResultsStub.visibility = GONE
-                    connectionLost.visibility = GONE
                     progressBar.visibility = GONE
                 }
             }
