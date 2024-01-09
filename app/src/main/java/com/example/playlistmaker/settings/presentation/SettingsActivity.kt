@@ -1,21 +1,31 @@
-package com.example.playlistmaker.presentation
+package com.example.playlistmaker.settings.presentation
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.MyCustomApplication
 import com.example.playlistmaker.R
+import com.example.playlistmaker.ViewModelFactory
 
 class SettingsActivity  : AppCompatActivity() {
+
+    private lateinit var viewModel : SettingsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        val app = application as MyCustomApplication
+        val viewModelFactory = ViewModelFactory(app.themeInteractor, app.searchInteractor)
+        val themeSwitcher = findViewById<SwitchCompat>(R.id.settings_dark_switch)
+        viewModel = ViewModelProvider(this, viewModelFactory)[SettingsViewModel::class.java]
+        viewModel.liveData.observe(this){
 
-        val themePrefs = (application as MyCustomApplication).themePrefs
+            themeSwitcher.isChecked = it
+        }
+
         val arrowBack = findViewById<ImageView>(R.id.arrowBack)
 
         arrowBack.setOnClickListener{
@@ -23,30 +33,22 @@ class SettingsActivity  : AppCompatActivity() {
         }
 
         val shareApp = findViewById<TextView>(R.id.share_app)
-
         shareApp.setOnClickListener {
 
-
             val url = getString(R.string.practicum)
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.putExtra(Intent.EXTRA_TEXT, url)
-            intent.type = "text/plain"
+            val intent = viewModel.createShareIntent(url)
             startActivity(Intent.createChooser(intent, "Поделиться ->"))
 
         }
 
         val supportRequest = findViewById<TextView>(R.id.support_request)
-
         supportRequest.setOnClickListener{
+
 
             val contact = getString(R.string.contact)
             val messageTheme = getString(R.string.message_theme_for_devs)
             val message = getString(R.string.message_for_devs)
-            val intent = Intent(Intent.ACTION_SENDTO)
-            intent.data = Uri.parse("mailto:")
-            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(contact))
-            intent.putExtra(Intent.EXTRA_SUBJECT, messageTheme)
-            intent.putExtra(Intent.EXTRA_TEXT, message)
+            val intent = viewModel.supportRequestIntent(contact, messageTheme, message)
             startActivity(intent)
 
         }
@@ -54,21 +56,17 @@ class SettingsActivity  : AppCompatActivity() {
 
 
         val userAgreement = findViewById<TextView>(R.id.user_agreement)
-
         userAgreement.setOnClickListener {
 
             val url = getString(R.string.practicum_offer)
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            startActivity(i)
+            val intent = viewModel.userAgreementIntent(url)
+            startActivity(intent)
 
         }
         
-        val themeSwitcher = findViewById<SwitchCompat>(R.id.settings_dark_switch)
-        themeSwitcher.isChecked = themePrefs.isDarkMode()
-        themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
-            (application as MyCustomApplication).switchTheme(isChecked)
-            themePrefs.saveTheme(isChecked)
+            themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.switchTheme(isChecked)
+
         }
 
     }

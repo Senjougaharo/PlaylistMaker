@@ -91,6 +91,7 @@
         android:visibility="gone" />
 
     <include
+        android:id="@+id/connection_lost"
         layout="@layout/connection_lost"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
