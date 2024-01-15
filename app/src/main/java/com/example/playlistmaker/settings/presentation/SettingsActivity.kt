@@ -6,21 +6,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.MyCustomApplication
 import com.example.playlistmaker.R
-import com.example.playlistmaker.ViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity  : AppCompatActivity() {
 
-    private lateinit var viewModel : SettingsViewModel
+    private val viewModel : SettingsViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        val app = application as MyCustomApplication
-        val viewModelFactory = ViewModelFactory(app.themeInteractor, app.searchInteractor)
+
         val themeSwitcher = findViewById<SwitchCompat>(R.id.settings_dark_switch)
-        viewModel = ViewModelProvider(this, viewModelFactory)[SettingsViewModel::class.java]
+
         viewModel.liveData.observe(this){
 
             themeSwitcher.isChecked = it

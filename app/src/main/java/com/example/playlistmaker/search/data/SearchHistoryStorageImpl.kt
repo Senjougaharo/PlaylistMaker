@@ -6,7 +6,7 @@ import com.example.playlistmaker.player.domain.model.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchHistoryStorageImpl(val sharedPreferences: SharedPreferences, val gson: Gson = Gson()) :
+class SearchHistoryStorageImpl(val sharedPreferences: SharedPreferences, val gson: Gson) :
     SearchHistoryStorage {
     
     

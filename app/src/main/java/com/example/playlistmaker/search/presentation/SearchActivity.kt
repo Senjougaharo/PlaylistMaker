@@ -17,20 +17,18 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.MyCustomApplication
 import com.example.playlistmaker.R
-import com.example.playlistmaker.ViewModelFactory
 import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.player.presentation.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
 import com.google.android.material.button.MaterialButton
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModel()
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view) }
     private val noResultsStub by lazy { findViewById<LinearLayout>(R.id.search_lost) }
@@ -68,9 +66,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        val app = (application as MyCustomApplication)
-        val viewModelFactory = ViewModelFactory(app.themeInteractor, app.searchInteractor)
-        viewModel = ViewModelProvider(this, viewModelFactory)[SearchViewModel::class.java]
+
         viewModel.liveData.observe(this) { state ->
             when (state){
                 is SearchState.Success -> {
