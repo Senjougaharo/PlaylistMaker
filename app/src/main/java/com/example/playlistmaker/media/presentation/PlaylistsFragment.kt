@@ -20,5 +20,10 @@ class PlaylistsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_playlists, container, false)
     }
 
+    companion object {
+        fun newInstance(): PlaylistsFragment {
+            return PlaylistsFragment()
+        }
+    }
 
 }
