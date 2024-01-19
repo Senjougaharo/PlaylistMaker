@@ -1,8 +1,10 @@
 package com.example.playlistmaker.main.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,33 +15,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
 
-        binding.searchButton.setOnClickListener {
+        val navController = navHostFragment.navController
 
-            val searchIntent = Intent(this, SearchActivity::class.java)
-            startActivity(searchIntent)
-        }
-
-
-
-        binding.mediaButton.setOnClickListener {
-
-            val mediaIntent = Intent(this, MediaActivity::class.java)
-            startActivity(mediaIntent)
-        }
-
-
-        binding.settingsButton.setOnClickListener{
-
-            val settingsIntent = Intent(this, SettingsActivity::class.java)
-
-            startActivity(settingsIntent)
-        }
-
-
-
-
-
+        binding.bottomNavigation.setupWithNavController(navController)
 
     }
 }

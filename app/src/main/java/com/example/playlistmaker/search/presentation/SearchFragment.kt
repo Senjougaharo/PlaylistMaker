@@ -50,7 +50,7 @@ class SearchFragment : Fragment() {
 
     }
 
-    lateinit var inputEditText: EditText
+
     var inputText: String = ""
 
     override fun onCreateView(
@@ -120,7 +120,7 @@ class SearchFragment : Fragment() {
 
 
         binding.clearIcon.setOnClickListener {
-            inputEditText.setText("")
+            binding.inputEditText.setText("")
             hideSoftKeyboard(it)
             binding.recyclerView.visibility = View.GONE
             binding.searchLost.root.visibility = View.GONE
@@ -143,7 +143,7 @@ class SearchFragment : Fragment() {
 
                 binding.searchLost.root.visibility = View.GONE
 
-                if (inputEditText.hasFocus() && inputEditText.text.isEmpty()) {
+                if (binding.inputEditText.hasFocus() && binding.inputEditText.text.isEmpty()) {
                     if (viewModel.readTrackHistory().isEmpty()) {
                         binding.trackHistory.root.visibility = View.GONE
                     } else {
@@ -163,7 +163,7 @@ class SearchFragment : Fragment() {
 
             }
         }
-        inputEditText.addTextChangedListener(simpleTextWatcher)
+        binding.inputEditText.addTextChangedListener(simpleTextWatcher)
 
     }
 
@@ -178,13 +178,13 @@ class SearchFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(BUBA, inputEditText.text.toString())
+        outState.putString(BUBA, binding.inputEditText.text.toString())
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         inputText = savedInstanceState?.getString(BUBA, "") ?: ""
-        inputEditText.setText(inputText)
+        binding.inputEditText.setText(inputText)
     }
 
     companion object {
@@ -231,9 +231,6 @@ class SearchFragment : Fragment() {
         return current
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 
 }

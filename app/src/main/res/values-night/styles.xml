@@ -60,6 +60,16 @@
         <item name="tabIndicatorColor">@color/black_to_white</item>
     </style>
 
+    <style name="bottom_navigation_style">
+        <item name="itemIconTint">@color/bottom_nav_color_selector_night</item>
+        <item name="itemTextColor">@color/bottom_nav_color_selector_night</item>
+    </style>
+
+    <style name="font_YS_regular">
+        <item name="android:font">@font/ys_display_regular</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 
 
 </resources>
