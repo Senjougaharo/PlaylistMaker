@@ -7,36 +7,25 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.ScrollView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.R
+import androidx.fragment.app.Fragment
+import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.player.presentation.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
-import com.google.android.material.button.MaterialButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+class SearchFragment : Fragment() {
 
-class SearchActivity : AppCompatActivity() {
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: SearchViewModel by viewModel()
 
-    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view) }
-    private val noResultsStub by lazy { findViewById<LinearLayout>(R.id.search_lost) }
-    private val connectionLost by lazy { findViewById<LinearLayout>(R.id.connection_lost) }
-    private val trackHistoryRecycler by lazy { findViewById<RecyclerView>(R.id.track_history_recycler) }
-    private val trackHistory by lazy { findViewById<ScrollView>(R.id.track_history) }
-    private val clearHistoryButton by lazy { findViewById<MaterialButton>(R.id.clear_history_button) }
-    private val progressBar by lazy { findViewById<ProgressBar>(R.id.progressBar) }
     private var isClickAllowed = true
     private val mainHandler = Handler(Looper.getMainLooper())
 
@@ -53,8 +42,8 @@ class SearchActivity : AppCompatActivity() {
 
     private val searchRunnable = Runnable {
 
-        progressBar.visibility = VISIBLE
-        recyclerView.visibility = GONE
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerView.visibility = View.GONE
 
         searchTrack()
 
@@ -63,29 +52,39 @@ class SearchActivity : AppCompatActivity() {
 
     lateinit var inputEditText: EditText
     var inputText: String = ""
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
 
-        viewModel.liveData.observe(this) { state ->
-            when (state){
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.liveData.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is SearchState.Success -> {
                     if (state.trackList.isNotEmpty()) {
-                        recyclerView.visibility = VISIBLE
-                        noResultsStub.visibility = GONE
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.searchLost.root.visibility = View.GONE
                         trackAdapter.submitData(state.trackList)
                     } else {
-                        recyclerView.visibility = GONE
-                        noResultsStub.visibility = VISIBLE
+                        binding.recyclerView.visibility = View.GONE
+                        binding.searchLost.root.visibility = View.VISIBLE
                     }
-                    connectionLost.visibility = GONE
-                    progressBar.visibility = GONE
+                    binding.connectionLost.root.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
                 }
+
                 is SearchState.Error -> {
-                    connectionLost.visibility = VISIBLE
-                    recyclerView.visibility = GONE
-                    noResultsStub.visibility = GONE
-                    progressBar.visibility = GONE
+                    binding.connectionLost.root.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+                    binding.searchLost.root.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }
@@ -93,47 +92,39 @@ class SearchActivity : AppCompatActivity() {
 
         val tracksHistoryList = viewModel.readTrackHistory()
 
-        recyclerView.adapter = trackAdapter
+        binding.recyclerView.adapter = trackAdapter
         historyAdapter.submitData(tracksHistoryList)
-        trackHistoryRecycler.adapter = historyAdapter
+        binding.trackHistory.trackHistoryRecycler.adapter = historyAdapter
         if (tracksHistoryList.isEmpty()) {
-            trackHistory.visibility = GONE
+            binding.trackHistory.root.visibility = View.GONE
         } else {
-            trackHistory.visibility = VISIBLE
+            binding.trackHistory.root.visibility = View.VISIBLE
         }
-        clearHistoryButton.setOnClickListener {
+        binding.trackHistory.clearHistoryButton.setOnClickListener {
             viewModel.clearHistory()
             historyAdapter.submitData(emptyList())
-            trackHistory.visibility = GONE
+            binding.trackHistory.root.visibility = View.GONE
         }
 
 
-        inputEditText = findViewById(R.id.inputEditText)
-        inputEditText.requestFocus()
+
+        binding.inputEditText.requestFocus()
 
 
-        val refresh = findViewById<MaterialButton>(R.id.refresh)
 
-        refresh.setOnClickListener {
+        binding.connectionLost.refresh.setOnClickListener {
 
             searchTrack()
         }
 
 
-        val arrowBack = findViewById<ImageView>(R.id.arrowBack)
 
-        arrowBack.setOnClickListener {
-            finish()
-        }
-
-        val clearButton = findViewById<ImageView>(R.id.clearIcon)
-
-        clearButton.setOnClickListener {
+        binding.clearIcon.setOnClickListener {
             inputEditText.setText("")
             hideSoftKeyboard(it)
-            recyclerView.visibility = GONE
-            noResultsStub.visibility = GONE
-            connectionLost.visibility = GONE
+            binding.recyclerView.visibility = View.GONE
+            binding.searchLost.root.visibility = View.GONE
+            binding.connectionLost.root.visibility = View.GONE
 
         }
 
@@ -144,26 +135,26 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                clearButton.visibility = clearButtonVisibility(s)
+                binding.clearIcon.visibility = clearButtonVisibility(s)
 
                 searchDebounce()
 
                 inputText = s.toString()
 
-                noResultsStub.visibility = GONE
+                binding.searchLost.root.visibility = View.GONE
 
                 if (inputEditText.hasFocus() && inputEditText.text.isEmpty()) {
                     if (viewModel.readTrackHistory().isEmpty()) {
-                        trackHistory.visibility = GONE
+                        binding.trackHistory.root.visibility = View.GONE
                     } else {
-                        trackHistory.visibility = VISIBLE
+                        binding.trackHistory.root.visibility = View.VISIBLE
                     }
-                    recyclerView.visibility = GONE
-                    connectionLost.visibility = GONE
-                    noResultsStub.visibility = GONE
+                    binding.recyclerView.visibility = View.GONE
+                    binding.connectionLost.root.visibility = View.GONE
+                    binding.searchLost.root.visibility = View.GONE
                 } else {
-                    trackHistory.visibility = GONE
-                    recyclerView.visibility = VISIBLE
+                    binding.trackHistory.root.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
                 }
             }
 
@@ -176,12 +167,11 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-
     fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
-            GONE
+            View.GONE
         } else {
-            VISIBLE
+            View.VISIBLE
         }
     }
 
@@ -191,13 +181,11 @@ class SearchActivity : AppCompatActivity() {
         outState.putString(BUBA, inputEditText.text.toString())
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        inputText = savedInstanceState.getString(BUBA, "")
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        inputText = savedInstanceState?.getString(BUBA, "") ?: ""
         inputEditText.setText(inputText)
-
     }
-
 
     companion object {
         const val BUBA = "BUBA"
@@ -209,13 +197,15 @@ class SearchActivity : AppCompatActivity() {
 
     private fun openPlayer(track: Track) {
         if (clickDebounce()) {
-            val intent = Intent(this, PlayerActivity::class.java).putExtra("track", track)
+            val intent =
+                Intent(requireContext(), PlayerActivity::class.java).putExtra("track", track)
             startActivity(intent)
         }
     }
 
     private fun hideSoftKeyboard(view: View) {
-        val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val manager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -240,17 +230,5 @@ class SearchActivity : AppCompatActivity() {
 
         return current
     }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

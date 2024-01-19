@@ -83,6 +83,7 @@
         />
 
     <include
+        android:id="@+id/search_lost"
         layout="@layout/lost_search"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"

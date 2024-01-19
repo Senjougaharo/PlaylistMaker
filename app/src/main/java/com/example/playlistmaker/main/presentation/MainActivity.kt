@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.playlistmaker.databinding.ActivityMainBinding
 import com.example.playlistmaker.media.presentation.MediaActivity
-import com.example.playlistmaker.search.presentation.SearchActivity
 
 class MainActivity : AppCompatActivity() {
 
