@@ -8,16 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/arrowBack"
-            style="@style/TypicalArrowBack" />
+
 
         <TextView
             style="@style/MessageHeadLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
             android:gravity="center"
             android:text="@string/settings"
             android:textStyle="bold" />
