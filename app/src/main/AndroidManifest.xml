@@ -18,9 +18,6 @@
             android:name=".player.presentation.PlayerActivity"
             android:exported="false"/>
         <activity
-            android:name=".media.presentation.MediaActivity"
-            android:exported="false"/>
-        <activity
             android:name=".main.presentation.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">
