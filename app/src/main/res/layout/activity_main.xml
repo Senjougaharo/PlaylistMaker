@@ -1,47 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/MainActivityBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="@dimen/padding_size_16"
     tools:context=".main.presentation.MainActivity">
 
-
-    <TextView
-        style="@style/MessageHeadLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:text="@string/app_name"
-        android:textColor="@color/white" />
-
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="28dp"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation"
+        android:layout_weight="1"/>
 
-        <Button
-            android:id="@+id/search_button"
-            style="@style/MainActivityButton"
-            android:text="@string/search"
-            app:icon="@drawable/icon_lupa" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/navigation_menu"
+        app:itemTextAppearanceActive="@style/font_YS_regular"
+        app:itemTextAppearanceInactive="@style/font_YS_regular"
+        style="@style/bottom_navigation_style"
+        />
 
-        <Button
-            android:id="@+id/media_button"
-            style="@style/MainActivityButton"
-            android:text="@string/media_library"
-            app:icon="@drawable/media" />
-
-        <Button
-            android:id="@+id/settings_button"
-            style="@style/MainActivityButton"
-            android:text="@string/settings"
-            app:cornerRadius="@dimen/padding_size_16"
-            app:icon="@drawable/settings" />
-    </LinearLayout>
 </LinearLayout>

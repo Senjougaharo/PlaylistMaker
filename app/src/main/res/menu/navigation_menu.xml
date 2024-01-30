@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/search_fragment"
+        android:title="@string/search"
+        android:icon="@drawable/icon_lupa"
+        android:iconTint="@color/blue"
+        />
+    <item android:id="@+id/media_fragment"
+        android:title="@string/media_library"
+        android:icon="@drawable/media"
+        android:iconTint="@color/blue"
+        />
+    <item android:id="@+id/settings_fragment"
+        android:title="@string/settings"
+        android:icon="@drawable/settings"
+        android:iconTint="@color/blue"
+        />
+
+
+
+
+
+</menu>
