@@ -7,11 +7,16 @@ import android.os.Looper
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.player.domain.model.Track
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -20,21 +25,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private val mediaPlayer = MediaPlayer()
 
-    private val mainHandler = Handler(Looper.getMainLooper())
-
-    private var counter = 0L
-
-    private val runnable = object : Runnable{
-        override fun run() {
-            playTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(counter)
-
-            counter += DELAY
-
-            mainHandler.postDelayed(this, DELAY)
-        }
-
-
-    }
+    private var job: Job? = null
 
     private val playTime by lazy {findViewById<TextView>(R.id.playTime)}
 
@@ -123,9 +114,8 @@ class PlayerActivity : AppCompatActivity() {
         }
         mediaPlayer.setOnCompletionListener {
             playButton.setImageResource(R.drawable.play_button)
-            mainHandler.removeCallbacks(runnable)
-            counter = 0
-            playTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(counter)
+            stopProgress()
+            playTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(0)
             currentState = STATE_PREPARED
         }
 
@@ -135,7 +125,7 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer.start()
         currentState = STATE_PLAYING
         playButton.setImageResource(R.drawable.pause)
-        mainHandler.post(runnable)
+        startProgress()
 
     }
 
@@ -143,7 +133,7 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer.pause()
         currentState = STATE_PAUSED
         playButton.setImageResource(R.drawable.play_button)
-        mainHandler.removeCallbacks(runnable)
+        stopProgress()
     }
 
     private fun playBackControl(){
@@ -151,6 +141,20 @@ class PlayerActivity : AppCompatActivity() {
             STATE_PLAYING -> pausePlayer()
             STATE_PREPARED, STATE_PAUSED -> startPlayer()
         }
+    }
+
+    private fun startProgress() {
+        job?.cancel()
+        job = lifecycleScope.launch {
+            while (isActive) {
+                delay(DELAY)
+                playTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+            }
+        }
+    }
+
+    private fun stopProgress() {
+        job?.cancel()
     }
 
     companion object {
@@ -162,7 +166,7 @@ class PlayerActivity : AppCompatActivity() {
 
         const val STATE_PAUSED = 3
 
-        const val DELAY = 1000L
+        const val DELAY = 300L
     }
 
 
