@@ -16,6 +16,7 @@ class SearchViewModel(private val interactor: SearchInteractor) : ViewModel() {
 
     fun searchTracks(inputText: String) {
         viewModelScope.launch {
+            _liveData.value = SearchState.Loading
             val result = interactor.searchTracks(inputText)
             _liveData.value = result
         }

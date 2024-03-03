@@ -13,10 +13,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.player.presentation.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -28,6 +32,8 @@ class SearchFragment : Fragment() {
 
     private var isClickAllowed = true
     private val mainHandler = Handler(Looper.getMainLooper())
+    private var lastSearchedText = ""
+    private var searchJob: Job? = null
 
     private val trackAdapter = TrackAdapter {
         viewModel.saveTrackToHistory(it)
@@ -39,17 +45,6 @@ class SearchFragment : Fragment() {
     private val historyAdapter = TrackAdapter {
         openPlayer(it)
     }
-
-    private val searchRunnable = Runnable {
-
-        binding.progressBar.visibility = View.VISIBLE
-        binding.recyclerView.visibility = View.GONE
-
-        searchTrack()
-
-
-    }
-
 
     var inputText: String = ""
 
@@ -67,6 +62,10 @@ class SearchFragment : Fragment() {
 
         viewModel.liveData.observe(viewLifecycleOwner) { state ->
             when (state) {
+                is SearchState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+                }
                 is SearchState.Success -> {
                     if (state.trackList.isNotEmpty()) {
                         binding.recyclerView.visibility = View.VISIBLE
@@ -114,7 +113,7 @@ class SearchFragment : Fragment() {
 
         binding.connectionLost.refresh.setOnClickListener {
 
-            searchTrack()
+            searchTrack(lastSearchedText)
         }
 
 
@@ -137,7 +136,7 @@ class SearchFragment : Fragment() {
 
                 binding.clearIcon.visibility = clearButtonVisibility(s)
 
-                searchDebounce()
+                searchDebounce(s.toString())
 
                 inputText = s.toString()
 
@@ -209,13 +208,19 @@ class SearchFragment : Fragment() {
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun searchDebounce() {
-        mainHandler.removeCallbacks(searchRunnable)
-        mainHandler.postDelayed(searchRunnable, SEARCH_DELAY)
+    private fun searchDebounce(text: String?) {
+        if (text == null || text == "") return
+        if (text == lastSearchedText) return
+        lastSearchedText = text
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            delay(SEARCH_DELAY)
+            searchTrack(text)
+        }
     }
 
-    private fun searchTrack() {
-        viewModel.searchTracks(inputText)
+    private fun searchTrack(text: String) {
+        viewModel.searchTracks(text)
     }
 
     private fun clickDebounce(): Boolean {
