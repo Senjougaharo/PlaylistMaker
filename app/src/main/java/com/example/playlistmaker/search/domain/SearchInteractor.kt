@@ -4,7 +4,7 @@ import com.example.playlistmaker.player.domain.model.Track
 
 interface SearchInteractor {
 
-    fun searchTracks(inputText: String, callback: TrackSearchCallback)
+    suspend fun searchTracks(inputText: String): SearchState
 
     fun saveTrackToHistory(track: Track)
 

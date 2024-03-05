@@ -6,4 +6,6 @@ sealed class SearchState{
     class Success(val trackList: List<Track>): SearchState()
 
     class Error(val message: String): SearchState()
+
+    object Loading: SearchState()
 }

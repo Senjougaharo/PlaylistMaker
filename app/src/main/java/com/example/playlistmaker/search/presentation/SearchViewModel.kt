@@ -3,10 +3,11 @@ package com.example.playlistmaker.search.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchState
-import com.example.playlistmaker.search.domain.TrackSearchCallback
+import kotlinx.coroutines.launch
 
 class SearchViewModel(private val interactor: SearchInteractor) : ViewModel() {
 
@@ -14,16 +15,11 @@ class SearchViewModel(private val interactor: SearchInteractor) : ViewModel() {
     val liveData: LiveData<SearchState> = _liveData
 
     fun searchTracks(inputText: String) {
-        val callback = object : TrackSearchCallback {
-            override fun onSuccess(trackList: List<Track>) {
-                _liveData.value = SearchState.Success(trackList)
-            }
-
-            override fun onError(message: String) {
-                _liveData.value = SearchState.Error(message)
-            }
+        viewModelScope.launch {
+            _liveData.value = SearchState.Loading
+            val result = interactor.searchTracks(inputText)
+            _liveData.value = result
         }
-        interactor.searchTracks(inputText, callback)
     }
 
     fun saveTrackToHistory(track: Track) {
