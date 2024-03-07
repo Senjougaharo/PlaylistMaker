@@ -26,7 +26,7 @@ val searchModule = module {
     }
 
     factory<RemoteRepository> {
-        RemoteRepositoryImpl(get())
+        RemoteRepositoryImpl(get(),get())
     }
 
     factory<TrackAPI> {

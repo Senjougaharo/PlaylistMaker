@@ -1,5 +1,7 @@
 package com.example.playlistmaker.player.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.PlayerInteractor
@@ -10,16 +12,19 @@ class PlayerViewModel(
     private val interactor: PlayerInteractor
 ) : ViewModel() {
 
+    private val _isFavoriteLiveData = MutableLiveData<Boolean>()
+    val isFavoriteLiveData: LiveData<Boolean> = _isFavoriteLiveData
 
-    fun addTrackToFavorite(track: Track) {
+    fun addOrRemoveTrackFromFavorite(track: Track) {
+        val isFavorite = _isFavoriteLiveData.value ?: false
+        _isFavoriteLiveData.value = !isFavorite
         viewModelScope.launch {
-            interactor.addTrackToFavorite(track)
+            if (track.isFavorite) interactor.removeTrackFromFavorite(track)
+            else interactor.addTrackToFavorite(track)
         }
     }
 
-    fun removeTrackFromFavorite(track: Track) {
-        viewModelScope.launch {
-            interactor.removeTrackFromFavorite(track)
-        }
+    fun setIsFavorite(isFavorite: Boolean) {
+        _isFavoriteLiveData.value = isFavorite
     }
 }
