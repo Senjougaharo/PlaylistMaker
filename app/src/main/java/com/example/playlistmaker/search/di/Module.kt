@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import com.example.playlistmaker.search.data.RemoteRepositoryImpl
 import com.example.playlistmaker.search.data.SearchHistoryStorageImpl
-import com.example.playlistmaker.search.data.SearchInteractorImpl
+import com.example.playlistmaker.search.domain.SearchInteractorImpl
 import com.example.playlistmaker.search.data.TrackAPI
 import com.example.playlistmaker.search.domain.RemoteRepository
 import com.example.playlistmaker.search.domain.SearchHistoryStorage
@@ -14,7 +14,6 @@ import org.koin.dsl.module
 import com.example.playlistmaker.search.presentation.SearchViewModel
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidApplication
-import org.koin.androidx.viewmodel.dsl.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

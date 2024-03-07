@@ -11,14 +11,14 @@ import kotlinx.coroutines.flow.Flow
 interface FavoriteTracksDao {
 
     @Insert
-    fun addTrack(trackEntity: FavoriteTrackEntity)
+    suspend fun addTrack(trackEntity: FavoriteTrackEntity)
 
     @Delete
-    fun deleteTrack(trackEntity: FavoriteTrackEntity)
+    suspend fun deleteTrack(trackEntity: FavoriteTrackEntity)
 
     @Query("SELECT * FROM FavoriteTrackEntity")
-    fun getAllTracks() : Flow<List<FavoriteTrackEntity>>
+    fun getAllTracks(): Flow<List<FavoriteTrackEntity>>
 
     @Query("SELECT trackId FROM FavoriteTrackEntity")
-    fun getFavoriteTrackIds() : List<String>
+    suspend fun getFavoriteTrackIds(): List<String>
 }
