@@ -10,7 +10,7 @@ class PlayerInteractorImpl(
         repository.addTracToFavorite(track)
     }
 
-    override suspend fun removeTrackFromFavorite(track: Track) {
-        repository.removeTrackFromFavorite(track)
+    override suspend fun removeTrackFromFavorite(id: String) {
+        repository.removeTrackFromFavorite(id)
     }
 }

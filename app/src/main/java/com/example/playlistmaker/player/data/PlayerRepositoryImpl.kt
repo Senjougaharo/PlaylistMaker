@@ -10,7 +10,7 @@ class PlayerRepositoryImpl(private val favoriteTracksDao: FavoriteTracksDao) : P
         favoriteTracksDao.addTrack(track.mapToEntity())
     }
 
-    override suspend fun removeTrackFromFavorite(track: Track) {
-        favoriteTracksDao.deleteTrack(track.mapToEntity())
+    override suspend fun removeTrackFromFavorite(id: String) {
+        favoriteTracksDao.deleteTrackById(id)
     }
 }

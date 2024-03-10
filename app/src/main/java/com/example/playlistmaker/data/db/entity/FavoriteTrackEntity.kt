@@ -28,6 +28,7 @@ data class FavoriteTrackEntity(
         releaseDate,
         collectionName,
         country,
-        previewUrl
+        previewUrl,
+        true
     )
 }

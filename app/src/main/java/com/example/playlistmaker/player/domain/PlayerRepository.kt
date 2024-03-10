@@ -6,5 +6,5 @@ interface PlayerRepository {
 
     suspend fun addTracToFavorite(track: Track)
 
-    suspend fun removeTrackFromFavorite(track: Track)
+    suspend fun removeTrackFromFavorite(id: String)
 }

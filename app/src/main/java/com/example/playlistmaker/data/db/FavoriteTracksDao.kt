@@ -13,8 +13,8 @@ interface FavoriteTracksDao {
     @Insert
     suspend fun addTrack(trackEntity: FavoriteTrackEntity)
 
-    @Delete
-    suspend fun deleteTrack(trackEntity: FavoriteTrackEntity)
+    @Query("DELETE FROM FavoriteTrackEntity WHERE trackId = :id")
+    suspend fun deleteTrackById(id: String)
 
     @Query("SELECT * FROM FavoriteTrackEntity")
     fun getAllTracks(): Flow<List<FavoriteTrackEntity>>

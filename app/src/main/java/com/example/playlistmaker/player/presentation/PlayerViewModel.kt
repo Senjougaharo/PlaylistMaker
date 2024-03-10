@@ -19,7 +19,7 @@ class PlayerViewModel(
         val isFavorite = _isFavoriteLiveData.value ?: false
         _isFavoriteLiveData.value = !isFavorite
         viewModelScope.launch {
-            if (track.isFavorite) interactor.removeTrackFromFavorite(track)
+            if (track.isFavorite) interactor.removeTrackFromFavorite(track.trackId)
             else interactor.addTrackToFavorite(track)
         }
     }

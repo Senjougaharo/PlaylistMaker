@@ -6,5 +6,5 @@ interface PlayerInteractor {
 
     suspend fun addTrackToFavorite(track: Track)
 
-    suspend fun removeTrackFromFavorite(track: Track)
+    suspend fun removeTrackFromFavorite(id: String)
 }
