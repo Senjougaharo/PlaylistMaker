@@ -13,6 +13,8 @@ import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 import com.example.playlistmaker.search.presentation.SearchViewModel
 import com.google.gson.Gson
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -33,6 +35,12 @@ val searchModule = module {
         Retrofit.Builder()
             .baseUrl("https://itunes.apple.com")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().also {
+                    it.level = HttpLoggingInterceptor.Level.BODY
+                })
+                .build())
             .build()
             .create(TrackAPI::class.java)
     }
