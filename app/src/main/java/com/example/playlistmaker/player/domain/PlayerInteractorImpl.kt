@@ -13,4 +13,8 @@ class PlayerInteractorImpl(
     override suspend fun removeTrackFromFavorite(id: String) {
         repository.removeTrackFromFavorite(id)
     }
+
+    override suspend fun isTrackFavorite(trackId: String): Boolean {
+        return repository.isTrackFavorite(trackId)
+    }
 }

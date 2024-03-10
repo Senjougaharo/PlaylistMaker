@@ -13,4 +13,8 @@ class PlayerRepositoryImpl(private val favoriteTracksDao: FavoriteTracksDao) : P
     override suspend fun removeTrackFromFavorite(id: String) {
         favoriteTracksDao.deleteTrackById(id)
     }
+
+    override suspend fun isTrackFavorite(trackId: String): Boolean {
+        return favoriteTracksDao.getFavoriteTrackIds().contains(trackId)
+    }
 }

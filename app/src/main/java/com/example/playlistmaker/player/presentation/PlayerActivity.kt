@@ -59,10 +59,8 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_player)
 
         val track = intent.getSerializableExtra("track") as Track
+        viewModel.checkIsFavorite(track.trackId)
 
-        if (savedInstanceState == null) {
-            viewModel.setIsFavorite(track.isFavorite)
-        }
         preparePlayer(track.previewUrl)
 
         val arrowBack = findViewById<ImageView>(R.id.arrowBack)
