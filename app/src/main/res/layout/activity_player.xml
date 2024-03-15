@@ -96,9 +96,10 @@
         app:layout_constraintTop_toTopOf="@+id/playButton" />
 
     <ImageView
+        android:id="@+id/like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/like"
+        android:src="@drawable/like_false"
         app:layout_constraintBottom_toBottomOf="@+id/playButton"
         app:layout_constraintEnd_toStartOf="@+id/right24dpGuideline"
         app:layout_constraintTop_toTopOf="@+id/playButton" />

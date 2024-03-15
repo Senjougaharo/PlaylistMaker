@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.databinding.FragmentSearchBinding
@@ -68,7 +69,7 @@ class SearchFragment : Fragment() {
                 }
                 is SearchState.Success -> {
                     if (state.trackList.isNotEmpty()) {
-                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.recyclerView.isVisible = binding.inputEditText.text.isNotEmpty()
                         binding.searchLost.root.visibility = View.GONE
                         trackAdapter.submitData(state.trackList)
                     } else {
@@ -107,7 +108,6 @@ class SearchFragment : Fragment() {
 
 
 
-        binding.inputEditText.requestFocus()
 
 
 
@@ -163,6 +163,7 @@ class SearchFragment : Fragment() {
             }
         }
         binding.inputEditText.addTextChangedListener(simpleTextWatcher)
+        binding.inputEditText.requestFocus()
 
     }
 

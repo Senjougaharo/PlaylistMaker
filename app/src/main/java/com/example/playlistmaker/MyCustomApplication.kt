@@ -2,7 +2,9 @@ package com.example.playlistmaker
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.data.di.dataModule
 import com.example.playlistmaker.media.di.mediaModule
+import com.example.playlistmaker.player.di.playerModule
 import com.example.playlistmaker.search.di.searchModule
 import com.example.playlistmaker.settings.data.ThemeInteractorImpl
 import com.example.playlistmaker.settings.di.settingsModule
@@ -19,7 +21,7 @@ class MyCustomApplication : Application() {
         startKoin {
             androidContext(this@MyCustomApplication)
 
-            modules(searchModule, settingsModule, mediaModule)
+            modules(searchModule, settingsModule, mediaModule, dataModule, playerModule)
         }
 
         val themeInteractor: ThemeInteractor by inject()

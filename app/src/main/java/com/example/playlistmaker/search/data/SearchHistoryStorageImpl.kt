@@ -17,7 +17,7 @@ class SearchHistoryStorageImpl(val sharedPreferences: SharedPreferences, val gso
         val trackListJson = sharedPreferences.getString(HISTORY_KEY, "")
         
         val trackList = gson.fromJson<ArrayList<Track>>(trackListJson, typeToken) ?: arrayListOf()
-        trackList.remove(track)
+        trackList.removeAll { it.trackId == track.trackId }
         
         trackList.add(track)
         
