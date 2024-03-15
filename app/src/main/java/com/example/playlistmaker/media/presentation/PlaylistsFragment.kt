@@ -21,6 +21,7 @@ class PlaylistsFragment : Fragment() {
     }
 
     companion object {
+        const val PLAYLIST_ID_KEY = "playlistIdKey"
         fun newInstance(): PlaylistsFragment {
             return PlaylistsFragment()
         }

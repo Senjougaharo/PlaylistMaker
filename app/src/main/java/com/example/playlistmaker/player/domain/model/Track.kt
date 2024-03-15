@@ -1,6 +1,7 @@
 package com.example.playlistmaker.player.domain.model
 
 
+import com.example.playlistmaker.addToPlaylist.data.entity.PlaylistTrackDbEntity
 import com.example.playlistmaker.data.db.entity.FavoriteTrackEntity
 import java.io.Serializable
 import java.text.SimpleDateFormat
@@ -33,6 +34,19 @@ data class Track(
         releaseDate,
         collectionName,
         country,
+        previewUrl
+    )
+
+    fun toPlaylistDbModel() = PlaylistTrackDbEntity(
+        trackName,
+        artistName,
+        trackTimeMillis,
+        artworkUrl100,
+        trackId,
+        releaseDate,
+        country,
+        primaryGenreName ?: "",
+        collectionName,
         previewUrl
     )
 }
