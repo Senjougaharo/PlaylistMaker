@@ -11,12 +11,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.domain.model.Track
-import com.example.playlistmaker.player.presentation.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -200,9 +202,7 @@ class SearchFragment : Fragment() {
 
     private fun openPlayer(track: Track) {
         if (clickDebounce()) {
-            val intent =
-                Intent(requireContext(), PlayerActivity::class.java).putExtra("track", track)
-            startActivity(intent)
+            findNavController().navigate(R.id.PlayerActivity, bundleOf("track" to track))
         }
     }
 

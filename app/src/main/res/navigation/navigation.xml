@@ -24,9 +24,9 @@
         android:id="@+id/playlistCreateFragment"
         android:name="com.example.playlistmaker.createPlaylist.presentation.PlaylistCreateFragment"
         android:label="PlaylistCreateFragment" />
-    <activity
+    <fragment
         android:id="@+id/PlayerActivity"
-        android:name="com.example.playlistmaker.player.presentation.PlayerActivity"
+        android:name="com.example.playlistmaker.player.presentation.PlayerFragment"
         android:label="PlayerActivity" />
 
 </navigation>
