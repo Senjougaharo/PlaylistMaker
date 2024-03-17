@@ -14,6 +14,7 @@ import com.example.playlistmaker.databinding.FragmentAddToPlaylistBinding
 import com.example.playlistmaker.player.domain.model.Track
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.Serializable
 
 class AddToPlaylistFragment : BottomSheetDialogFragment() {
     private val viewModel by viewModel<AddToPlaylistViewModel>()
@@ -31,6 +32,7 @@ class AddToPlaylistFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val track =
             BundleCompat.getParcelable(arguments ?: bundleOf(), ARGS_KEY, Track::class.java)!!
         val adapter = AddToPlaylistAdapter {

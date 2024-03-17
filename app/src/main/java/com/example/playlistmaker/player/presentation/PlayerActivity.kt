@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.BundleCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
+import com.example.playlistmaker.addToPlaylist.presentation.AddToPlaylistFragment
 import com.example.playlistmaker.player.domain.model.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -46,6 +49,8 @@ class PlayerActivity : AppCompatActivity() {
 
     private val likeButton by lazy { findViewById<ImageView>(R.id.like) }
 
+    private val addToPlaylistButton by lazy { findViewById<ImageView>(R.id.add_to_playlist) }
+
 
     private var currentState = STATE_DEFAULT
 
@@ -57,8 +62,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
-
-        val track = intent.getSerializableExtra("track") as Track
+        val track = BundleCompat.getParcelable(intent.extras ?: bundleOf(), "track", Track::class.java)!!
         viewModel.checkIsFavorite(track.trackId)
 
         preparePlayer(track.previewUrl)
@@ -80,6 +84,12 @@ class PlayerActivity : AppCompatActivity() {
 
         viewModel.isFavoriteLiveData.observe(this) { isFavorite ->
             likeButton.setImageResource(if (isFavorite) R.drawable.like_true else R.drawable.like_false)
+        }
+
+        addToPlaylistButton.setOnClickListener {
+            AddToPlaylistFragment
+                .newInstance(track)
+                .show(supportFragmentManager, null)
         }
 
         trackName.text = track.trackName
