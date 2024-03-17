@@ -4,11 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.playlistmaker.R
+import androidx.fragment.app.Fragment
 import com.example.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.player.presentation.PlayerActivity
@@ -22,7 +21,7 @@ class FavoriteTracksFragment : Fragment() {
     private var isClickAllowed = true
     private val mainHandler = Handler(Looper.getMainLooper())
 
-    private var _binding : FragmentFavoriteTracksBinding?=null
+    private var _binding: FragmentFavoriteTracksBinding? = null
 
     private val binding get() = _binding!!
 
@@ -31,24 +30,24 @@ class FavoriteTracksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFavoriteTracksBinding.inflate(inflater,container,false)
+        _binding = FragmentFavoriteTracksBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = TrackAdapter{
-
-            openPlayer(it)
-        }
+        val adapter = TrackAdapter(
+            onClick = { openPlayer(it) }
+        )
         binding.recyclerView.adapter = adapter
-        viewModel.liveData.observe(viewLifecycleOwner){
-            when (it){
+        viewModel.liveData.observe(viewLifecycleOwner) {
+            when (it) {
                 is FavoriteScreenState.Empty -> {
                     binding.emptyFav.visibility = View.VISIBLE
                     binding.recyclerView.visibility = View.GONE
                 }
+
                 is FavoriteScreenState.NotEmpty -> {
                     binding.recyclerView.visibility = View.VISIBLE
                     binding.emptyFav.visibility = View.GONE
@@ -57,6 +56,7 @@ class FavoriteTracksFragment : Fragment() {
             }
         }
     }
+
     private fun openPlayer(track: Track) {
         if (clickDebounce()) {
             val intent =
@@ -79,7 +79,7 @@ class FavoriteTracksFragment : Fragment() {
         return current
     }
 
-    companion object{
+    companion object {
         fun newInstance(): FavoriteTracksFragment {
             return FavoriteTracksFragment()
         }

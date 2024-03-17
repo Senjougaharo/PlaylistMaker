@@ -8,10 +8,6 @@ import com.example.playlistmaker.createPlaylist.data.entity.PlaylistEntity
 import com.example.playlistmaker.createPlaylist.domain.PlaylistRepository
 import com.example.playlistmaker.media.domain.PlaylistModel
 import com.example.playlistmaker.player.domain.model.Track
-import com.example.playlistmaker.playlist.presentation.model.DetailedPlaylistModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 
 class PlaylistRepositoryImpl(
     private val playlistDao: PlaylistDao,
@@ -20,16 +16,6 @@ class PlaylistRepositoryImpl(
 
     override suspend fun addPlaylist(playlist: PlaylistEntity) {
         playlistDao.addPlaylist(playlist)
-    }
-
-    override suspend fun deletePlaylist(playlist: DetailedPlaylistModel): Boolean {
-        playlistDao.deletePlaylist(playlist.id)
-        val playlists = playlistDao.getPlaylists()
-        playlist.trackList.forEach {
-            val isUsed = checkTrackUsage(it.trackId, playlists)
-            if (!isUsed) playlistTrackDao.deleteTrack(it.trackId)
-        }
-        return true
     }
 
     override suspend fun addTrackToPlaylist(trackId: String, playlistId: Int) {
@@ -70,26 +56,4 @@ class PlaylistRepositoryImpl(
     override suspend fun addTrack(track: Track) {
         playlistTrackDao.addTrack(track.toPlaylistDbModel())
     }
-
-    override fun getPlaylistById(id: Int): Flow<DetailedPlaylistModel> {
-        val playlistFlow = playlistDao.getPlaylistById(id)
-        val tracksFlow = playlistTrackDao.getAllTracks()
-        return playlistFlow
-            .filterNotNull()
-            .combine(tracksFlow) { playlist, trackList ->
-                val filteredTrackList =
-                    trackList.filter { playlist.parsedTrackList.contains(it.trackId) }
-                        .map { it.mapToTrack() }
-                DetailedPlaylistModel(
-                    playlist.id,
-                    playlist.cover,
-                    playlist.name,
-                    playlist.description,
-                    playlist.parsedTrackList.size,
-                    (filteredTrackList.sumOf { it.trackTimeMillis } / 60000).toInt(),
-                    filteredTrackList.reversed()
-                )
-            }
-    }
-
 }

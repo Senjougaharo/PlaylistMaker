@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -36,16 +35,20 @@ class SearchFragment : Fragment() {
     private var lastSearchedText = ""
     private var searchJob: Job? = null
 
-    private val trackAdapter = TrackAdapter {
-        viewModel.saveTrackToHistory(it)
-        historyAdapter.submitData(viewModel.readTrackHistory())
+    private val trackAdapter = TrackAdapter(
+        onClick = {
+            viewModel.saveTrackToHistory(it)
+            historyAdapter.submitData(viewModel.readTrackHistory())
 
-        openPlayer(it)
-    }
+            openPlayer(it)
+        }
+    )
 
-    private val historyAdapter = TrackAdapter {
-        openPlayer(it)
-    }
+    private val historyAdapter = TrackAdapter (
+        onClick = {
+            openPlayer(it)
+        }
+    )
 
     var inputText: String = ""
 
