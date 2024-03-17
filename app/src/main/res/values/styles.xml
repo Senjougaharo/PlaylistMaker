@@ -150,6 +150,7 @@
         <item name="android:textSize">14sp</item>
     </style>
     <style name="tab_layout_style">
+        <item name="android:background">@color/white_to_black</item>
         <item name="tabTextColor">@color/black_to_white</item>
         <item name="tabIndicatorColor">@color/black_to_white</item>
     </style>
@@ -174,7 +175,7 @@
         <item name="android:backgroundTint">@color/black_to_white</item>
     </style>
     <style name="Screen_Theme">
-        <item name="android:background">@color/black_to_white</item>
+        <item name="android:background">@color/white_to_black</item>
     </style>
     <style name="back_button">
         <item name="android:tint">@color/black_to_white</item>
