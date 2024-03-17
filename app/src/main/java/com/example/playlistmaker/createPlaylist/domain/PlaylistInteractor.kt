@@ -3,7 +3,7 @@ package com.example.playlistmaker.createPlaylist.domain
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.example.playlistmaker.createPlaylist.data.ImageSaver
-import com.example.playlistmaker.createPlaylist.data.entity.PlaylistEntity
+import com.example.playlistmaker.createPlaylist.domain.model.PlaylistDomainModel
 import com.example.playlistmaker.media.domain.PlaylistModel
 import com.example.playlistmaker.player.domain.model.Track
 
@@ -11,8 +11,8 @@ class PlaylistInteractor(
     private val repository: PlaylistRepository,
     private val imageSaver: ImageSaver
 ) {
-    suspend fun addPlaylist(playlist: PlaylistEntity) {
-        repository.addPlaylist(playlist)
+    suspend fun addPlaylist(name: String, description: String, cover: String) {
+        repository.addPlaylist(PlaylistDomainModel(cover = cover, name = name, description = description))
     }
 
     fun getPlaylists(): LiveData<List<PlaylistModel>> {

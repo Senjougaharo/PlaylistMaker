@@ -6,6 +6,7 @@ import com.example.playlistmaker.Constants
 import com.example.playlistmaker.addToPlaylist.data.PlaylistTrackDao
 import com.example.playlistmaker.createPlaylist.data.entity.PlaylistEntity
 import com.example.playlistmaker.createPlaylist.domain.PlaylistRepository
+import com.example.playlistmaker.createPlaylist.domain.model.PlaylistDomainModel
 import com.example.playlistmaker.media.domain.PlaylistModel
 import com.example.playlistmaker.player.domain.model.Track
 
@@ -14,8 +15,8 @@ class PlaylistRepositoryImpl(
     private val playlistTrackDao: PlaylistTrackDao
 ) : PlaylistRepository {
 
-    override suspend fun addPlaylist(playlist: PlaylistEntity) {
-        playlistDao.addPlaylist(playlist)
+    override suspend fun addPlaylist(playlist: PlaylistDomainModel) {
+        playlistDao.addPlaylist(playlist.mapToEntity())
     }
 
     override suspend fun addTrackToPlaylist(trackId: String, playlistId: Int) {
