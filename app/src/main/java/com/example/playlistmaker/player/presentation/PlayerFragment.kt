@@ -27,7 +27,7 @@ import java.util.Locale
 
 class PlayerFragment : Fragment() {
 
-    private val mediaPlayer = MediaPlayer()
+    private lateinit var mediaPlayer : MediaPlayer
 
     private var job: Job? = null
 
@@ -37,13 +37,6 @@ class PlayerFragment : Fragment() {
     private var currentState = STATE_DEFAULT
 
     private val viewModel: PlayerViewModel by viewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val track =
-            BundleCompat.getParcelable(arguments ?: bundleOf(), "track", Track::class.java)!!
-        preparePlayer(track.previewUrl)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,8 +49,10 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mediaPlayer  = MediaPlayer()
         val track =
             BundleCompat.getParcelable(arguments ?: bundleOf(), "track", Track::class.java)!!
+        preparePlayer(track.previewUrl)
         viewModel.checkIsFavorite(track.trackId)
 //        if (savedInstanceState == null)
 //            preparePlayer(track.previewUrl)
