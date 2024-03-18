@@ -14,17 +14,19 @@ import com.example.playlistmaker.player.domain.model.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackAdapter(private val onClick: (Track) -> Unit): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
-   
-   inner class TrackViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class TrackAdapter(
+    private val onClick: (Track) -> Unit,
+    private val onLongClick: (Track) -> Unit = {}
+) : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+
+    inner class TrackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
+        fun getSimpleDataFormat(track: Track): String {
+            return SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+        }
 
-
-       fun getSimpleDataFormat(track: Track) : String{
-           return SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
-       }
-        fun bind(track: Track){
+        fun bind(track: Track) {
             itemView.findViewById<TextView>(R.id.track_name).text = track.trackName
             itemView.findViewById<TextView>(R.id.artist_name).text = track.artistName
             itemView.findViewById<TextView>(R.id.duration).text = getSimpleDataFormat(track)
@@ -39,28 +41,32 @@ class TrackAdapter(private val onClick: (Track) -> Unit): RecyclerView.Adapter<T
                 .placeholder(R.drawable.placeholder)
                 .into(cover)
 
-            itemView.setOnClickListener{
-
+            itemView.setOnClickListener {
                 onClick.invoke(track)
-
+            }
+            itemView.setOnLongClickListener {
+                onLongClick(track)
+                true
             }
 
         }
 
 
     }
-    
+
     private var data: List<Track> = arrayListOf()
-    
+
     fun submitData(data: List<Track>) {
         this.data = data
         notifyDataSetChanged()
     }
-    
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
-        val viewHolder = TrackViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.track_list_item,parent,false))
 
-    return viewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
+        val viewHolder = TrackViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.track_list_item, parent, false)
+        )
+
+        return viewHolder
     }
 
     override fun getItemCount(): Int = data.size

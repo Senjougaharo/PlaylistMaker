@@ -2,14 +2,20 @@ package com.example.playlistmaker.player.presentation
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.os.BundleCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
+import com.example.playlistmaker.addToPlaylist.presentation.AddToPlaylistFragment
+import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.domain.model.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -19,82 +25,74 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+class PlayerFragment : Fragment() {
 
-class PlayerActivity : AppCompatActivity() {
-
-    private val mediaPlayer = MediaPlayer()
+    private lateinit var mediaPlayer : MediaPlayer
 
     private var job: Job? = null
 
-    private val playTime by lazy { findViewById<TextView>(R.id.playTime) }
-
-    private val trackCover by lazy { findViewById<ImageView>(R.id.trackCover) }
-
-    private val trackName by lazy { findViewById<TextView>(R.id.trackName) }
-
-    private val trackArtist by lazy { findViewById<TextView>(R.id.trackArtist) }
-
-    private val duration by lazy { findViewById<TextView>(R.id.durationValue) }
-
-    private val album by lazy { findViewById<TextView>(R.id.albumValue) }
-
-    private val year by lazy { findViewById<TextView>(R.id.yearValue) }
-
-    private val genre by lazy { findViewById<TextView>(R.id.genreValue) }
-
-    private val country by lazy { findViewById<TextView>(R.id.countryValue) }
-
-    private val likeButton by lazy { findViewById<ImageView>(R.id.like) }
-
+    private var _binding: ActivityPlayerBinding? = null
+    private val binding get() = _binding!!
 
     private var currentState = STATE_DEFAULT
 
-    private val playButton by lazy { findViewById<ImageView>(R.id.playButton) }
-
     private val viewModel: PlayerViewModel by viewModel()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = ActivityPlayerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player)
-
-        val track = intent.getSerializableExtra("track") as Track
-        viewModel.checkIsFavorite(track.trackId)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mediaPlayer  = MediaPlayer()
+        val track =
+            BundleCompat.getParcelable(arguments ?: bundleOf(), "track", Track::class.java)!!
         preparePlayer(track.previewUrl)
+        viewModel.checkIsFavorite(track.trackId)
+//        if (savedInstanceState == null)
+//            preparePlayer(track.previewUrl)
 
-        val arrowBack = findViewById<ImageView>(R.id.arrowBack)
-
-        arrowBack.setOnClickListener {
-            finish()
+        binding.arrowBack.setOnClickListener {
+            findNavController().popBackStack()
         }
 
-        playButton.setOnClickListener {
+        binding.playButton.setOnClickListener {
             playBackControl()
 
         }
 
-        likeButton.setOnClickListener {
+        binding.like.setOnClickListener {
             viewModel.addOrRemoveTrackFromFavorite(track)
         }
 
-        viewModel.isFavoriteLiveData.observe(this) { isFavorite ->
-            likeButton.setImageResource(if (isFavorite) R.drawable.like_true else R.drawable.like_false)
+        viewModel.isFavoriteLiveData.observe(viewLifecycleOwner) { isFavorite ->
+            binding.like.setImageResource(if (isFavorite) R.drawable.like_true else R.drawable.like_false)
         }
 
-        trackName.text = track.trackName
+        binding.addToPlaylist.setOnClickListener {
+            AddToPlaylistFragment
+                .newInstance(track)
+                .show(parentFragmentManager, null)
+        }
 
-        trackArtist.text = track.artistName
+        binding.trackName.text = track.trackName
 
-        duration.text = track.timeFormat()
+        binding.trackArtist.text = track.artistName
 
-        album.text = track.collectionName
+        binding.duration.text = track.timeFormat()
 
-        year.text = track.releaseDate.take(4)
+        binding.album.text = track.collectionName
 
-        genre.text = track.primaryGenreName
+        binding.year.text = track.releaseDate.take(4)
 
-        country.text = track.country
+        binding.genre.text = track.primaryGenreName
+
+        binding.country.text = track.country
 
         Glide.with(this)
             .load(track.getCoverArtwork())
@@ -103,22 +101,18 @@ class PlayerActivity : AppCompatActivity() {
                 RoundedCorners(resources.getDimensionPixelSize(R.dimen.player_track_cover_corner_radius))
             )
             .placeholder(R.drawable.placeholder)
-            .into(trackCover)
-
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+            .into(binding.trackCover)
     }
 
     override fun onPause() {
         super.onPause()
         pausePlayer()
+        mediaPlayer.release()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mediaPlayer.release()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun preparePlayer(previewUrl: String) {
@@ -129,9 +123,9 @@ class PlayerActivity : AppCompatActivity() {
 
         }
         mediaPlayer.setOnCompletionListener {
-            playButton.setImageResource(R.drawable.play_button)
+            binding.playButton.setImageResource(R.drawable.play_button)
             stopProgress()
-            playTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(0)
+            binding.playTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(0)
             currentState = STATE_PREPARED
         }
 
@@ -140,7 +134,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun startPlayer() {
         mediaPlayer.start()
         currentState = STATE_PLAYING
-        playButton.setImageResource(R.drawable.pause)
+        binding.playButton.setImageResource(R.drawable.pause)
         startProgress()
 
     }
@@ -148,7 +142,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun pausePlayer() {
         mediaPlayer.pause()
         currentState = STATE_PAUSED
-        playButton.setImageResource(R.drawable.play_button)
+        binding.playButton.setImageResource(R.drawable.play_button)
         stopProgress()
     }
 
@@ -164,7 +158,7 @@ class PlayerActivity : AppCompatActivity() {
         job = lifecycleScope.launch {
             while (isActive) {
                 delay(DELAY)
-                playTime.text = SimpleDateFormat(
+                binding.playTime.text = SimpleDateFormat(
                     "mm:ss",
                     Locale.getDefault()
                 ).format(mediaPlayer.currentPosition)
@@ -187,6 +181,4 @@ class PlayerActivity : AppCompatActivity() {
 
         const val DELAY = 300L
     }
-
-
 }

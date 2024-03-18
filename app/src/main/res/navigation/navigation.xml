@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/media_fragment"
         android:name="com.example.playlistmaker.media.presentation.MediaFragment"
-        android:label="MediaFragment" />
+        android:label="MediaFragment" >
+        <action
+            android:id="@+id/action_mediaFragment_to_playlistCreateFragment"
+            app:destination="@id/playlistCreateFragment" />
+    </fragment>
     <fragment
         android:id="@+id/search_fragment"
         android:name="com.example.playlistmaker.search.presentation.SearchFragment"
@@ -16,5 +20,13 @@
         android:id="@+id/settings_fragment"
         android:name="com.example.playlistmaker.settings.presentation.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/playlistCreateFragment"
+        android:name="com.example.playlistmaker.createPlaylist.presentation.PlaylistCreateFragment"
+        android:label="PlaylistCreateFragment" />
+    <fragment
+        android:id="@+id/PlayerActivity"
+        android:name="com.example.playlistmaker.player.presentation.PlayerFragment"
+        android:label="PlayerActivity" />
 
 </navigation>

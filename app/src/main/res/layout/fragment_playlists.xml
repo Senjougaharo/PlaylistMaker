@@ -9,7 +9,7 @@
     tools:context=".media.presentation.PlaylistsFragment">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/refresh"
+        android:id="@+id/new_playlist_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_playlist"
@@ -21,6 +21,7 @@
         />
 
     <ImageView
+        android:id="@+id/no_playlists_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
@@ -28,11 +29,23 @@
         />
 
     <TextView
+        android:id="@+id/no_playlists_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="16dp"
         style="@style/InfoMessage"
         android:text="@string/no_playlist"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playlist_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        app:spanCount="2"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/playlist_item"/>
 
 </LinearLayout>
