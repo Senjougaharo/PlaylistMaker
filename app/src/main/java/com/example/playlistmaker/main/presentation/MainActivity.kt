@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private val bottomNavigationView by lazy { binding.bottomNavigation }
-    private val fragmentList = listOf(R.id.PlayerActivity, R.id.playlistCreateFragment)
+    private val fragmentList = listOf(R.id.PlayerActivity, R.id.playlistCreateFragment, R.id.editPlaylistFragment, R.id.playlistFragment)
 
     private val destinationListener = NavController.OnDestinationChangedListener { _, destination, _ ->
         if(destination.id in fragmentList) {

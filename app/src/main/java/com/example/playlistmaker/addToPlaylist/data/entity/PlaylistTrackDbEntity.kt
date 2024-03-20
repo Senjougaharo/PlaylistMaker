@@ -21,15 +21,15 @@ data class PlaylistTrackDbEntity(
 ) {
     fun mapToTrack(): Track {
         return Track(
+            trackId,
             trackName,
             artistName,
-            artworkUrl,
             trackTime,
-            trackId,
-            releaseDate,
-            country,
+            artworkUrl,
             primaryGenreName,
+            releaseDate,
             collectionName,
+            country,
             previewUrl
         )
     }

@@ -28,5 +28,12 @@
         android:id="@+id/PlayerActivity"
         android:name="com.example.playlistmaker.player.presentation.PlayerFragment"
         android:label="PlayerActivity" />
-
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="com.example.playlistmaker.playlist.presentation.PlaylistFragment"
+        android:label="PlaylistFragment"/>
+    <fragment
+        android:id="@+id/editPlaylistFragment"
+        android:name="com.example.playlistmaker.editPlaylist.presentation.EditPlaylistFragment"
+        android:label="EditPlaylistFragment"/>
 </navigation>

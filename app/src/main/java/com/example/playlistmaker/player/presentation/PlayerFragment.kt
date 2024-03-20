@@ -84,15 +84,15 @@ class PlayerFragment : Fragment() {
 
         binding.trackArtist.text = track.artistName
 
-        binding.duration.text = track.timeFormat()
+        binding.durationValue.text = track.timeFormat()
 
-        binding.album.text = track.collectionName
+        binding.albumValue.text = track.collectionName
 
-        binding.year.text = track.releaseDate.take(4)
+        binding.yearValue.text = track.releaseDate.take(4)
 
-        binding.genre.text = track.primaryGenreName
+        binding.genreValue.text = track.primaryGenreName
 
-        binding.country.text = track.country
+        binding.countryValue.text = track.country
 
         Glide.with(this)
             .load(track.getCoverArtwork())

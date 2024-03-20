@@ -29,7 +29,12 @@ class PlaylistsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PlaylistAdapter {}
+        val adapter = PlaylistAdapter {
+            findNavController().navigate(
+                R.id.playlistFragment,
+                bundleOf(PLAYLIST_ID_KEY to it)
+            )
+        }
         binding.playlistList.adapter = adapter
         viewModel.playlistsLiveData.observe(viewLifecycleOwner) {
             binding.playlistList.isVisible = it.isNotEmpty()
@@ -44,6 +49,7 @@ class PlaylistsFragment : Fragment() {
 
 
     companion object {
+        const val PLAYLIST_ID_KEY = "playlistIdKey"
 
         @JvmStatic
         fun newInstance() = PlaylistsFragment()
